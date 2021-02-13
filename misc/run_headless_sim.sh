@@ -140,7 +140,7 @@ addRovers(){
 	# Delays between adding rovers and starting their nodes in seconds
 	MODEL_ADD_INTERVAL=3s
 	# Specify rover start coordinates
-	ROVER_POSITIONS_X=( -1.308 0.000 1.308 0.000 1.072 -1.072 -1.072 1.072 )
+	ROVER_POSITIONS_X=( -4 0.000 1.308 0.000 1.072 -1.072 -1.072 1.072 )
 	ROVER_POSITIONS_Y=( 0.000 -1.308 0.000 1.308 1.072 -1.072 1.072 -1.072 )
 	# In this case, the yaw is the value that turns rover "left" and "right" */
 	ROVER_YAWS=( 0.000 1.571 -3.142 -1.571 -2.356 0.785 -0.785 2.356 )
@@ -325,24 +325,24 @@ startGazeboServer $WORLD_FILE_PATH $RANDOM_SEED
 sleep 5
 $visualize && startGazeboClient # Start the gazebo simulation if got agrument
 echo -e "$cyan Adding models to the world $reset"
-addGroundPlane
-addCam
+#addGroundPlane
+#addCam
 addRovers $NUM_ROVERS
-addCollectionZone
-addWalls $type # will be either prelim or final
+#addCollectionZone
+#addWalls $type # will be either prelim or final
 sleep 10
 echo -e "$green Done adding models to the world $reset"
 #---------------------------------------------------------#
-publishRoverModes $NUM_ROVERS "autonomous"
+#publishRoverModes $NUM_ROVERS "autonomous"
 
 #---------------------------   Checking for errors    ------------------------------#
 # Testing for  [Err] [Model.cc:921] Sensors failed to initialize when loading model[collection_disk] via the factory mechanism.Plugins for the model will not be loaded."
-echo "Looking for /collectionZone/score"
-[[ $(rostopic list /collectionZone/score) ]] || userExit 9
+#echo "Looking for /collectionZone/score"
+#[[ $(rostopic list /collectionZone/score) ]] || userExit 9
 n=10 #10-18
 for (( i=0;i<$NUM_ROVERS;i++ )); do
-	echo "Looking for /${ROVER_NAMES[i]}/status"
-	[[ $(rostopic list /${ROVER_NAMES[i]}/status) ]] || userExit $(( $n + $i ))
+	#echo "Looking for /${ROVER_NAMES[i]}/status"
+	#[[ $(rostopic list /${ROVER_NAMES[i]}/status) ]] || userExit $(( $n + $i ))
 	echo "Looking for /${ROVER_NAMES[i]}/targets/image/compressed"
 	[[ $(rostopic list /${ROVER_NAMES[i]}/targets/image/compressed) ]] || userExit $(( $n + $i ))
 done #end foreach checking rovers status exists
