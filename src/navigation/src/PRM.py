@@ -9,6 +9,7 @@ from PIL import Image
 import rospy
 from std_msgs.msg import Float64MultiArray
 from swarmie_msgs.msg import Waypoint
+import rospkg
 #from progressbar import Progressbar
 
 # parameter
@@ -68,7 +69,7 @@ def is_collision(sx, sy, gx, gy, rr, obstacle_kd_tree):
         return True
 
     D = rr
-    n_step = round(d / D)
+    n_step = int(d / D)
 
     for i in range(n_step):
         dist, _ = obstacle_kd_tree.query([x, y])
@@ -261,7 +262,7 @@ def PlanPRM(Rxs,Rys,Rxg,Ryg):
 
     gx,gy = robot_to_PRM(Rxg,Ryg)
     robot_size = 1  # [m]
-    image = PIL.Image.open('occupancy3.jpg')
+    image = PIL.Image.open(filter(lambda x: "navigation" in x, rospkg.get_ros_package_path().split(':'))[0]+'/src/occupancy3.jpg')
     g_image = image.convert("L")
     g_array = np.asarray(g_image)
 
@@ -308,6 +309,7 @@ def PlanPRM(Rxs,Rys,Rxg,Ryg):
     
         
 def PRMRequestCallback(msg):
+	msg = msg.data
 	startx= msg[0]
 	starty= msg[1]
 	endx = msg[2]
