@@ -10,6 +10,7 @@ import rospy
 from std_msgs.msg import Float64MultiArray
 from swarmie_msgs.msg import Waypoint
 import rospkg
+from geometry_msgs.msg import PoseStamped, Pose, Point
 
 # from progressbar import Progressbar
 
@@ -296,11 +297,7 @@ def PlanPRM(Rxs, Rys, Rxg, Ryg):
     # print('PRM:'+ str(rx[i])+','+str(ry[i]))
     Rxd, Ryd = PRM_to_robot(rx[i], ry[i])
     # print('Robot:'+ str(Rxd)+','+str(Ryd))
-    waypoint = Waypoint()
-    waypoint.action = 0
-    waypoint.x = Rxd
-    waypoint.y = Ryd
-    pub.publish(waypoint)
+    pub.publish( PoseStamped(pose=Pose(position=Point(Rxd,Ryd,0))))
 
   assert rx, 'Cannot found path'
 
@@ -317,6 +314,6 @@ def PRMRequestCallback(msg):
 if __name__ == '__main__':
   rospy.init_node("PRM")
   sub = rospy.Subscriber('/PRM', Float64MultiArray, PRMRequestCallback)
-  pub = rospy.Publisher('/achilles/waypoints/cmd', Waypoint, queue_size=10)
+  pub = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=10)
 
   rospy.spin()
