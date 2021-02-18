@@ -1,7 +1,7 @@
-# SwarmieOS
+# NASA-MINDS: Project Chili House ROS repo
 
 ## Overview
-This repository contains the SwarmieOS code based on College’s 2018 & 2019 submissions to the [NASA Swarmathon](http://www.nasaswarmathon.com), a national swarm robotics competition.
+This repository wa baised on Cabrillo College’s 2018 & 2019 submissions to the [NASA Swarmathon](http://www.nasaswarmathon.com), a national swarm robotics competition.
 
 The base code provided to participating schools can be found here [SwarmBaseCode-ROS](https://github.com/BCLab-UNM/SwarmBaseCode-ROS).
 
