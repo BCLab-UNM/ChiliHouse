@@ -92,7 +92,7 @@ class Planner:
             if avoid_targets:
                 print('Avoiding targets during this run.')
             self._nav_goal_sub = rospy.Subscriber(
-                'goal',
+                '/move_base_simple/goal',
                 PoseStamped,
                 self._rviz_nav_goal_cb,
                 callback_args=(avoid_targets, avoid_home),
