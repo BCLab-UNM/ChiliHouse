@@ -15,9 +15,11 @@ from geometry_msgs.msg import PoseStamped, Pose, Point
 # from progressbar import Progressbar
 
 # parameter
-N_SAMPLE = 500  # number of sample_points
-N_KNN = 10  # number of edge from one sampled point
-MAX_EDGE_LEN = 1000.0  # [m] Maximum edge length
+N_SAMPLE = 50  # number of sample_points
+N_KNN = 15  # number of edge from one sampled point
+MAX_EDGE_LEN = 1500.0  # [m] Maximum edge length
+ox=[]
+oy=[]
 
 show_animation = False
 
@@ -257,31 +259,31 @@ def PRM_to_robot(Px, Py):
 
   return Rx, Ry
 
-
-def PlanPRM(Rxs, Rys, Rxg, Ryg):
-  # print(__file__ + " start!!")
-
-  # start and goal position
-  sx, sy = robot_to_PRM(Rxs, Rys)
-
-  gx, gy = robot_to_PRM(Rxg, Ryg)
-  robot_size = 1  # [m]
+def generate_obstacle():
   image = PIL.Image.open(
-    filter(lambda x: "navigation" in x, rospkg.get_ros_package_path().split(':'))[0] + '/src/occupancy3.jpg')
+    filter(lambda x: "navigation" in x, rospkg.get_ros_package_path().split(':'))[0] + '/src/occupancy4.jpg')
   g_image = image.convert("L")
   g_array = np.asarray(g_image)
-
-  ox = []
-  oy = []
-
-  # pbar1 = ProgressBar()
-
-  print('generating obstacle map')
+  #print('generating obstacle map')
   for i in range(0, len(g_array[0])):
     for j in range(0, len(g_array[1])):
       if g_array[i][j] == 0:
         ox.append(float(j))
         oy.append(float(3000 - i))
+   
+  return ox,oy
+
+	
+
+def PlanPRM(Rxs, Rys, Rxg, Ryg):
+  # print(__file__ + " start!!")
+
+  # start and goal position
+  print('generated obstacle map')
+  sx, sy = robot_to_PRM(Rxs, Rys)
+
+  gx, gy = robot_to_PRM(Rxg, Ryg)
+  robot_size = 2  # [m]
   # plt.plot(ox, oy, ".k")
   # if show_animation:
   #   plt.plot(ox, oy, ".k")
@@ -296,7 +298,7 @@ def PlanPRM(Rxs, Rys, Rxg, Ryg):
   for i in reversed(range(0, len(rx))):
     # print('PRM:'+ str(rx[i])+','+str(ry[i]))
     Rxd, Ryd = PRM_to_robot(rx[i], ry[i])
-    # print('Robot:'+ str(Rxd)+','+str(Ryd))
+    print('Robot:'+ str(Rxd)+','+str(Ryd))
     pub.publish( PoseStamped(pose=Pose(position=Point(Rxd,Ryd,0))))
 
   assert rx, 'Cannot found path'
@@ -313,6 +315,7 @@ def PRMRequestCallback(msg):
 
 if __name__ == '__main__':
   rospy.init_node("PRM")
+  ox,oy = generate_obstacle()
   sub = rospy.Subscriber('/PRM', Float64MultiArray, PRMRequestCallback)
   pub = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=10)
 
