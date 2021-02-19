@@ -47,15 +47,15 @@
     <param name="DRIVE_ANGLE_ABORT" value="1.5"/>
 
     <!-- Default drive speeds. These are also used for manual driving. -->
-    <param name="DRIVE_SPEED" value="0.2"/>
-    <param name="REVERSE_SPEED" value="0.2"/>
-    <param name="TURN_SPEED" value="0.9"/>
+    <param name="DRIVE_SPEED" value="1"/>
+    <param name="REVERSE_SPEED" value="1"/>
+    <param name="TURN_SPEED" value="2"/>
 
     <!-- Additional slow and fast drive speeds available through the Swarmie API -->
-    <param name="DRIVE_SPEED_SLOW" value="0.1"/>
-    <param name="TURN_SPEED_SLOW" value="0.5"/>
-    <param name="DRIVE_SPEED_FAST" value="0.25"/>
-    <param name="TURN_SPEED_FAST" value="1.1"/>
+    <param name="DRIVE_SPEED_SLOW" value="1"/>
+    <param name="TURN_SPEED_SLOW" value="1"/>
+    <param name="DRIVE_SPEED_FAST" value="2"/>
+    <param name="TURN_SPEED_FAST" value="2"/>
   </node>
 
   <node name="coordinate" pkg="mobility" type="coordinate.py" respawn="true"/>
