@@ -4,19 +4,17 @@ import rospy
 import random
 from std_msgs.msg import Float64MultiArray
 from gazebo_msgs.srv import GetModelState
+from geometry_msgs.msg import Point, Pose
 
 class MoistureSensor:
+    # decay rate for plant
+    # need to chagnge this value to real decay rate
     moisture_decay_rate = 1
     moisture_arr = []
     
     model_coordinates = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
     # Note: it says pose and moisture_level is undefined but should be okay!?
-    pots=[{pose:model_coordinates("plant_"+num, "world").pose.position,moisture_level:random.randint(20,500)} for num in range(0,143)]
-    
-    # pots = {0: {"location": (1, 3), "moisture_level": 66},
-	#         1: {"location": (1, 2), "moisture_level": 35},
-    #         2: {"location": (2, 2), "moisture_level": 67},
-    #         3: {"location": (4, 2), "moisture_level": 54}}
+    pots=[{pose:model_coordinates("plant_"+str(num), "world").pose.position,moisture_level:random.randint(20,500)} for num in range(0,143)]
 
 
     # gets the moisture level from the pots and 
@@ -37,39 +35,33 @@ class MoistureSensor:
     def publish_pot_moisture(self, event=None):
         msg = Float64MultiArray()
         msg.data = self.moisture_arr
-        self.temperature_publisher.publish(msg)
+        self.moisture_publisher.publish(msg)
 
 
     def read_moisture_sensor_data(self, event=None):
         # Here you read the data from your sensor
         # And you return the real value
-        self.temperature = get_pot_moisture()
+        self.moisture = get_pot_moisture()
 
 
     def __init__(self):
         # Create a ROS publisher
-        self.temperature_publisher = rospy.Publisher("/moisture", Float64MultiArray, queue_size=1)
+        self.moisture_publisher = rospy.Publisher("/moisture", Float64MultiArray, queue_size=1)
 
-        # Initialize temperature data
-        self.temperature = []
-
-    # def read_moisture_sensor_data(self, event=None):
-        # Here you read the data from your sensor
-        # And you return the real value
-        # self.temperature = 30.0
+        # Initialize moisture data
+        self.moisture = []
 
 
 if __name__ == '__main__':
-    rospy.init_node("your_sensor_node")
+    rospy.init_node("moistures_sensors_node")
 
-    # Create an instance of Temperature sensor
+    # Create an instance of Moisture sensor
     ms = MoistureSensor()
 
     ms.get_pot_moisture()
 
     # Create a ROS Timer for reading data
     # rospy.Timer(rospy.Duration(1.0/10.0), ms.read_moisture_sensor_data)
-    #ms.read_moisture_sensor_data
 
     rate = rospy.Rate(0.8)
 
