@@ -15,9 +15,9 @@ from geometry_msgs.msg import PoseStamped, Pose, Point
 # from progressbar import Progressbar
 
 # parameter
-N_SAMPLE = 50  # number of sample_points
+N_SAMPLE = 100  # number of sample_points
 N_KNN = 15  # number of edge from one sampled point
-MAX_EDGE_LEN = 1500.0  # [m] Maximum edge length
+MAX_EDGE_LEN = 1000.0  # [m] Maximum edge length
 ox=[]
 oy=[]
 
@@ -248,20 +248,20 @@ def sample_points(sx, sy, gx, gy, rr, ox, oy, obstacle_kd_tree):
 
 def robot_to_PRM(Rx, Ry):
   Px = 1500 + Rx * 100
-  Py = 1500 + Ry * 100
+  Py = abs(Ry * 100 - 1500)
 
   return Px, Py
 
 
 def PRM_to_robot(Px, Py):
   Rx = (Px - 1500) / 100
-  Ry = (Py - 1500) / 100
+  Ry = (1500-Py)/100
 
   return Rx, Ry
 
 def generate_obstacle():
   image = PIL.Image.open(
-    filter(lambda x: "navigation" in x, rospkg.get_ros_package_path().split(':'))[0] + '/src/occupancy4.jpg')
+    filter(lambda x: "navigation" in x, rospkg.get_ros_package_path().split(':'))[0] + '/src/occupancytest.jpg')
   g_image = image.convert("L")
   g_array = np.asarray(g_image)
   #print('generating obstacle map')
@@ -269,7 +269,7 @@ def generate_obstacle():
     for j in range(0, len(g_array[1])):
       if g_array[i][j] == 0:
         ox.append(float(j))
-        oy.append(float(3000 - i))
+        oy.append(float(i))
    
   return ox,oy
 
@@ -283,7 +283,7 @@ def PlanPRM(Rxs, Rys, Rxg, Ryg):
   sx, sy = robot_to_PRM(Rxs, Rys)
 
   gx, gy = robot_to_PRM(Rxg, Ryg)
-  robot_size = 2  # [m]
+  robot_size = 5  # [m]
   # plt.plot(ox, oy, ".k")
   # if show_animation:
   #   plt.plot(ox, oy, ".k")
