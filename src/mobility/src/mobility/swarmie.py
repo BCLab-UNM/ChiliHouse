@@ -31,6 +31,12 @@ swarmie_lock = threading.Lock()
 from .utils import block_detection, block_pose, filter_detections, is_moving
 from mobility import sync
 
+#@TODO clean up imports
+import random
+from std_msgs.msg import Float64MultiArray
+from gazebo_msgs.srv import GetModelState
+#from mobility.planner import Planner
+
 class DriveException(Exception):
     def __init__(self, st):
         self.status = st
@@ -159,6 +165,7 @@ class Swarmie(object):
         self._store_imu_calibration = None
 
         self.xform = None
+        self.plants=list()
 
 
     def start(self, **kwargs):
@@ -900,6 +907,53 @@ class Swarmie(object):
 
         return abs(home_odom.x) > 0.01 and abs(home_odom.y) > 0.01
     
+    def drive_prm_init(self):
+        from mobility.planner import Planner
+        p = Planner(use_rviz_nav_goal=True)
+        model_coordinates = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
+        
+        #@TODO: might define zones and make this more dynamic\
+        #note 99 is missing so It will be at 0,0
+        top_range = range(96,99) + range(100,104) + range(106,119) 
+        top_right_range = range(119,143)
+        right_range = range(30,53)
+        bottom_range = range(10,16) + range(54,63)
+        bottom_left_range = range(1,10) + range(16,30) + range(87,96)
+        left_range = range(63,87)
+        
+        rospy.loginfo("Populating plant coordinates and offsets")
+        for plant_num in range(0,143):
+            plant_point=model_coordinates("plant_"+str(plant_num), "world").pose.position
+            plant_offset = Point(plant_point.x, plant_point.y, 0)
+            #gazebo starts with x+ being up(top) so nameing matches that perspective
+            if plant_num in top_range:
+                plant_offset.x -= .9
+            elif plant_num in top_right_range:
+                plant_offset.x -= .65
+                plant_offset.y += .65
+            elif plant_num in right_range:
+                plant_offset.y += .9
+            elif plant_num in bottom_range:
+                plant_offset.x += .9
+            elif plant_num in bottom_left_range:
+                plant_offset.x += .65
+                plant_offset.y -= .65
+            elif plant_num in left_range:
+                plant_offset.y -= .9
+            self.plants.append({'point':plant_point,'offset':plant_offset, 'temp':0, 'pot_imp':0, 'plant_imp':0})
+        rospy.loginfo("Done populating plant coordinates and offsets")
+    
+    def drive_prm(self, plant_num):
+        plant_goal = self.plants[plant_num]['offset']
+        prm = rospy.Publisher('/PRM', Float64MultiArray, queue_size=1, latch=True)
+        prm.publish(Float64MultiArray(data=[swarmie.get_odom_location().get_pose().x,swarmie.get_odom_location().get_pose().y,plant_goal.x,plant_goal.y]))
+        while not swarmie.get_odom_location().at_goal(plant_goal, 1.2) and not rospy.is_shutdown():
+            rospy.sleep(1)
+        #@TODO: test drive_to call for final approch
+        rospy.sleep(1)
+        self.turn_to(self.plants[plant_num]['point'])
+        
+        
     def drive_to(self, place, claw_offset=0, **kwargs):
         '''Drive directly to a particular point in space. The point must be in 
         the odometry reference frame. 
