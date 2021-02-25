@@ -96,7 +96,7 @@ class Planner:
                 PoseStamped,
                 self._rviz_nav_goal_cb,
                 callback_args=(avoid_targets, avoid_home),
-                queue_size=1
+                queue_size=10
             )
 
     def _get_angle_and_dist_to_avoid(self, detection, direction='left'):
