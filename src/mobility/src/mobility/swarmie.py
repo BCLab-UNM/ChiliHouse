@@ -528,6 +528,14 @@ class Swarmie(object):
         )
         return self.__drive(req, **kwargs)
 
+    def turn_to(self, place, **kwargs):
+        loc = self.get_odom_location().get_pose()
+        dist = math.hypot(loc.y - place.y, loc.x - place.x)
+        angle = angles.shortest_angular_distance(loc.theta, 
+                                                 math.atan2(place.y - loc.y,
+                                                            place.x - loc.x))
+        self.turn(angle, **kwargs)
+
     def wait(self, time, **kwargs):
         '''Wait for a period of time. This can be used to check for obstacles
         
