@@ -22,7 +22,10 @@ def plant_walk(num_moves):
         if rospy.is_shutdown():
             water_plants_exit(-1)
         # @TODO: get thirstiest plant also weigh in distance
-        swarmie.drive_to_plant(random.randint(0,143))
+        try:
+            swarmie.drive_to_plant(random.randint(0,143))
+        except:
+            pass
 
 
 def water_plants_exit(code):
