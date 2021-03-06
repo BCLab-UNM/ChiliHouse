@@ -34,7 +34,8 @@ from mobility import sync
 #@TODO clean up imports
 import random
 from std_msgs.msg import Float64MultiArray
-from gazebo_msgs.srv import GetModelState
+from gazebo_msgs.srv import GetModelState, DeleteModel, SpawnModel
+import rospkg
 
 class DriveException(Exception):
     def __init__(self, st):
@@ -243,6 +244,9 @@ class Swarmie(object):
         self._start_gyro_bias_calibration = rospy.ServiceProxy('start_gyro_bias_calibration', Empty)
         self._start_gyro_scale_calibration = rospy.ServiceProxy('start_gyro_scale_calibration', Empty)
         self._store_imu_calibration = rospy.ServiceProxy('store_imu_calibration', Empty)
+        self.model_state = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
+        self.delete_model = rospy.ServiceProxy('/gazebo/delete_model', DeleteModel)
+        self.spawn_model = rospy.ServiceProxy('/gazebo/spawn_sdf_model', SpawnModel)
 
         # Transform listener. Use this to transform between coordinate spaces.
         # Transform messages must predate any sensor messages so initialize this first.
@@ -273,6 +277,12 @@ class Swarmie(object):
         except rospy.ROSException:
             rospy.logwarn(self.rover_name +
                           ': timed out waiting for /targets data.')
+                          
+        # read some model files
+        with open (rospkg.RosPack().get_path('swarmie')+'/../../simulation/models/round_pot_thirst/model.sdf', 'r') as sdf_file:
+                self.thirst_model = sdf_file.read().replace('\n', '')
+        with open (rospkg.RosPack().get_path('swarmie')+'/../../simulation/models/round_pot/model.sdf', 'r') as sdf_file:
+            self.pot_model = sdf_file.read().replace('\n', '')
 
         print ('Welcome', self.rover_name, 'to the world of the future.')
 
@@ -908,10 +918,9 @@ class Swarmie(object):
         return abs(home_odom.x) > 0.01 and abs(home_odom.y) > 0.01
     
     def plants_init(self):
-        model_coordinates = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
         rospy.loginfo("Populating plant coordinates and offsets")
         for plant_num in range(0,143):
-            plant_point=model_coordinates("plant_"+str(plant_num), "world").pose.position
+            plant_point=self.model_state("plant_"+str(plant_num), "world").pose.position
             self.plants.append({'point':plant_point, 'temp':0, 'pot_imp':0, 'plant_imp':0})
         rospy.loginfo("Done populating plant coordinates and offsets")
         
