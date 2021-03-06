@@ -260,7 +260,7 @@ class Swarmie(object):
         rospy.Subscriber('home_point', PointStamped, self._home_point)
         rospy.Subscriber('home_point/approx', PointStamped, self._home_point,
                          callback_args=True)
-
+        # rospy.Subscriber('/plants', Plant, self._plant)                                                   # @TODO: create msg and comment in
         # Wait for Odometry messages to come in.
         # Don't wait for messages on /obstacle because it's published infrequently
         try:
@@ -321,8 +321,19 @@ class Swarmie(object):
     def _targets(self, msg):
         self.targets_index = (self.targets_index + 1) % self.CIRCULAR_BUFFER_SIZE
         self.targets[self.targets_index] = msg.detections
-
-
+    
+    @sync(swarmie_lock)
+    def _plant(self, msg):
+        self.plants[msg.id]['temp'] = msg.temp
+        self.plants[msg.id]['pot_imp'] = msg.pot_imp
+        self.plants[msg.id]['plant_imp'] = msg.plant_imp
+        if msg.pot_imp > 40: # @TODO get actul values possibly store as a ros param
+            pose = self.model_state("round_pot_"+str(msg.id), "world").pose
+            self.delete_model("round_pot_"+str(msg.id))
+            self.spawn_model("round_pot_"+str(msg.id), self.thirst_model, "", pose,"world")
+            #else: self.spawn_model("round_pot_"+str(msg.id), self.pot_model, "", pose,"world")
+        
+    
     def __drive(self, request, **kwargs):
         request.obstacles = ~0
         if 'ignore' in kwargs :
