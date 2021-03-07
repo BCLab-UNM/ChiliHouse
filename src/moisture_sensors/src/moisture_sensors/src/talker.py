@@ -2,27 +2,32 @@
 
 import rospy
 import random
-from std_msgs.msg import Float64MultiArray
-from gazebo_msgs.srv import GetModelState
-from geometry_msgs.msg import Point, Pose
+from std_msgs.msg import Float64
 
 class MoistureSensor:
     # decay rate for plant
     # need to chagnge this value to real decay rate
     moisture_decay_rate = 1
     moisture_arr = []
-    
-    model_coordinates = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
-    # Note: it says pose and moisture_level is undefined but should be okay!?
-    pots=[{pose:model_coordinates("plant_"+str(num), "world").pose.position,moisture_level:random.randint(20,500)} for num in range(0,143)]
+    pots=[{ 'z_value_plant':random.randint(50, 100), 
+            'z_value_soil': random.randint(0, 45),  
+            'z_value_temp':random.randint(0, 10)}
+            for num in range(0,10)]
 
 
     # gets the moisture level from the pots and 
     # appends to the moisture_arr
     def get_pot_moisture(self):
-        for x in range(len(self.pots)):
-	        self.moisture_arr.append(self.pots[x].moisture_level)    
+        pots = self.pots
+        for x in range(len(pots)):
+            z_value_plant = pots[x]['z_value_plant']
+            z_value_soil = pots[x]['z_value_soil']
+            # moisture level is the difference between 
+            # z value of plant and z value of soil
+            moisture_level = abs(z_value_soil - z_value_plant)
+            self.moisture_arr.append(moisture_level)
         return self.moisture_arr
+        
 
     # gets moinsture level from moisture_arr and
     # decreases each moisture level by moisture_decay value
@@ -33,23 +38,22 @@ class MoistureSensor:
 
     # Every 1 second publishes moisture of pot
     def publish_pot_moisture(self, event=None):
-        msg = Float64MultiArray()
-        msg.data = self.moisture_arr
-        self.moisture_publisher.publish(msg)
-
-
-    def read_moisture_sensor_data(self, event=None):
-        # Here you read the data from your sensor
-        # And you return the real value
-        self.moisture = get_pot_moisture()
-
-
-    def __init__(self):
-        # Create a ROS publisher
-        self.moisture_publisher = rospy.Publisher("/moisture", Float64MultiArray, queue_size=1)
-
-        # Initialize moisture data
-        self.moisture = []
+        self.moisture_publisher = rospy.Publisher("/moisture", Float64, queue_size=10)
+        rate = rospy.Rate(1)
+        msg = Float64
+        while not rospy.is_shutdown():
+            ms.moisture_decay()
+            for i in range(len(self.moisture_arr)):
+                print(self.moisture_arr[i])
+                msg = self.moisture_arr[i]
+                self.moisture_publisher.publish(msg)
+                i = i+1
+                rate.sleep()
+            # this value is just for debugging purpose 
+            # it indicates starting of updated array
+            msg = 111111111
+            self.moisture_publisher.publish(msg)
+            print('\n')
 
 
 if __name__ == '__main__':
@@ -59,18 +63,6 @@ if __name__ == '__main__':
     ms = MoistureSensor()
 
     ms.get_pot_moisture()
-
-    # Create a ROS Timer for reading data
-    # rospy.Timer(rospy.Duration(1.0/10.0), ms.read_moisture_sensor_data)
-
-    rate = rospy.Rate(0.8)
-
-    # Create another ROS Timer for publishing data
-    rospy.Timer(rospy.Duration(1.0), ms.publish_pot_moisture)
-    while not rospy.is_shutdown():
-        ms.moisture_decay()
-        ms.publish_pot_moisture()
-        rate.sleep()
     
-    # Don't forget this or else the program will exit
-    # rospy.spin()
+    ms.publish_pot_moisture()
+        
