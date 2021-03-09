@@ -19,11 +19,10 @@ from mobility import sync
 import mobility.behavior.init
 import mobility.behavior.calibrate_imu
 import mobility.behavior.queue
-import mobility.behavior.search 
-import mobility.behavior.pickup
 import mobility.behavior.gohome
-import mobility.behavior.dropoff
 import mobility.behavior.escape_home
+import mobility.behavior.water_plants
+
 
 from mobility.swarmie import swarmie, AbortException, InsideHomeException
 
@@ -31,20 +30,20 @@ from mobility.swarmie import swarmie, AbortException, InsideHomeException
 
 class Task : 
     
-    STATE_IDLE        = 0
-    STATE_CAL_IMU     = 1
-    STATE_QUEUE       = 2
-    STATE_INIT        = 3
-    STATE_SEARCH      = 4
-    STATE_PICKUP      = 5
-    STATE_GOHOME      = 6
-    STATE_DROPOFF     = 7
-    STATE_ESCAPE_HOME = 8
+    STATE_IDLE         = 0
+    STATE_CAL_IMU      = 1
+    STATE_QUEUE        = 2
+    STATE_INIT         = 3
+    STATE_WATER_PLANTS = 4
+    STATE_PICKUP       = 5
+    STATE_GOHOME       = 6
+    STATE_DROPOFF      = 7
+    STATE_ESCAPE_HOME  = 8
 
     PROG_INIT        = 'init.py'
     PROG_CAL_IMU     = 'calibrate_imu.py'
     PROG_QUEUE       = 'queue.py'
-    PROG_SEARCH      = 'search.py'
+    PROG_SEARCH      = 'water_plants.py'
     PROG_PICKUP      = 'pickup.py'
     PROG_GOHOME      = 'gohome.py'
     PROG_DROPOFF     = 'dropoff.py'
@@ -74,7 +73,7 @@ class Task :
         rospy.set_param('~has_block', self.has_block)
 
     def publish_status(self, _event):
-        self.status_pub.publish('+Cabrillo: {}'.format(self.get_task()))
+        self.status_pub.publish(self.get_task())
 
     def print_state(self, msg):
         s = String()
@@ -100,8 +99,8 @@ class Task :
             return "queue"
         elif self.current_state == Task.STATE_INIT : 
             return "init"
-        elif self.current_state == Task.STATE_SEARCH :
-            return "search"
+        elif self.current_state == Task.STATE_WATER_PLANTS :
+            return "water_plants"
         elif self.current_state == Task.STATE_PICKUP : 
             return "pickup"
         elif self.current_state == Task.STATE_GOHOME : 
@@ -139,18 +138,18 @@ class Task :
 
             elif self.current_state == Task.STATE_INIT:
                 if self.launch(mobility.behavior.init.main) == 0:
-                    self.print_state('Init succeeded. Starting search.')
-                    self.current_state = Task.STATE_SEARCH
+                    self.print_state('Init succeeded. Starting water plants.')
+                    self.current_state = Task.STATE_WATER_PLANTS
                 else:
                     # FIXME: What should happen when init fails?
                     self.print_state('Init failed! FIXME!.')
 
-            elif self.current_state == Task.STATE_SEARCH:
-                if self.launch(mobility.behavior.search.main) == 0:
-                    self.print_state('Search succeeded. Do pickup.')
+            elif self.current_state == Task.STATE_WATER_PLANTS:
+                if self.launch(mobility.behavior.water_plants.main) == 0:
+                    self.print_state('water_plants succeeded. Do pickup.')
                     self.current_state = Task.STATE_PICKUP
                 else:
-                    self.print_state('Search failed. Going back home.')
+                    self.print_state('water_plants failed. Going back home.')
                     self.current_state = Task.STATE_GOHOME
 
             elif self.current_state == Task.STATE_PICKUP:
@@ -159,8 +158,8 @@ class Task :
                     self.has_block = True
                     self.current_state = Task.STATE_GOHOME
                 else:
-                    self.print_state('Pickup failed. Back to search.')
-                    self.current_state = Task.STATE_SEARCH
+                    self.print_state('Pickup failed. Back to watering plants.')
+                    self.current_state = Task.STATE_WATER_PLANTS
 
             elif self.current_state == Task.STATE_GOHOME:
                 gohome_status = self.launch(mobility.behavior.gohome.main)
@@ -169,8 +168,8 @@ class Task :
                         self.print_state('Home found and I have a block. Do drop off.')
                         self.current_state = Task.STATE_DROPOFF
                     else:
-                        self.print_state('Recalibrated home. Back to searching.')
-                        self.current_state = Task.STATE_SEARCH
+                        self.print_state('Recalibrated home. Back to watering plants.')
+                        self.current_state = Task.STATE_WATER_PLANTS
                 elif gohome_status == 1:
                     self.print_state('Go Home interrupted, I found a tag. Do pickup.')
                     self.current_state = Task.STATE_PICKUP
@@ -182,9 +181,9 @@ class Task :
 
             elif self.current_state == Task.STATE_DROPOFF:
                 if self.launch(mobility.behavior.dropoff.main) == 0:
-                    self.print_state('Dropoff complete. Back to searching.')
+                    self.print_state('Dropoff complete. Back to watering plants.')
                     self.has_block = False
-                    self.current_state = Task.STATE_SEARCH
+                    self.current_state = Task.STATE_WATER_PLANTS
                 else:
                     self.print_state('Dropoff failed. Back to searching for home.')
                     self.current_state = Task.STATE_GOHOME
@@ -200,7 +199,7 @@ class Task :
                     elif self.has_block:
                         self.current_state = Task.STATE_GOHOME
                     else:
-                        self.current_state = Task.STATE_SEARCH
+                        self.current_state = Task.STATE_WATER_PLANTS
 
                     self.prev_state = None
                 else:

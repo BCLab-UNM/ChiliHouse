@@ -349,7 +349,7 @@ addCollectionZone
 sleep 10
 echo -e "$green Done adding models to the world $reset"
 #---------------------------------------------------------#
-#publishRoverModes $NUM_ROVERS "autonomous"
+publishRoverModes $NUM_ROVERS "autonomous"
 
 #---------------------------   Checking for errors    ------------------------------#
 # Testing for  [Err] [Model.cc:921] Sensors failed to initialize when loading model[collection_disk] via the factory mechanism.Plugins for the model will not be loaded."
