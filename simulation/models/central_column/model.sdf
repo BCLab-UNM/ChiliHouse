@@ -20,7 +20,7 @@
         <geometry>
           <mesh>
             <uri>model://central_column/central_column.stl</uri>
-            <scale>1 1 1</scale>
+            <scale>0.33 0.33 0.33</scale>
           </mesh>
         </geometry>
         <material>
