@@ -21,10 +21,10 @@
       <visual name='visual'>
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
-          <cylinder>
-            <radius>0.1524</radius>
-            <length>0.3048</length>
-          </cylinder>
+          <mesh>
+              <uri>model://round_pot/pot.stl</uri>
+              <scale>0.02 0.02 0.02</scale>
+            </mesh>
         </geometry>
         <material>
           <lighting>1</lighting>
