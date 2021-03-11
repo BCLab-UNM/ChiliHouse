@@ -2,6 +2,7 @@
 
 import rospy
 import random
+from moisture_sensors.msg import moisture_msg
 from std_msgs.msg import Float64
 
 class MoistureSensor:
@@ -38,21 +39,23 @@ class MoistureSensor:
 
     # Every 1 second publishes moisture of pot
     def publish_pot_moisture(self, event=None):
-        self.moisture_publisher = rospy.Publisher("/moisture", Float64, queue_size=10)
-        rate = rospy.Rate(1)
-        msg = Float64
+        pots = self.pots
+        self.moisture_publisher = rospy.Publisher("/moisture", moisture_msg, queue_size=10)
+        rate = rospy.Rate(0.7)
+        msg = moisture_msg()
         while not rospy.is_shutdown():
             ms.moisture_decay()
-            for i in range(len(self.moisture_arr)):
-                print(self.moisture_arr[i])
-                msg = self.moisture_arr[i]
+            for i in range(len(pots)):
+                # print(self.moisture_arr[i])
+                msg.id = i
+                msg.temp = pots[i]['z_value_temp']
+                msg.pot_imp = pots[i]['z_value_soil']
+                msg.plant_imp = pots[i]['z_value_plant']
                 self.moisture_publisher.publish(msg)
                 i = i+1
                 rate.sleep()
             # this value is just for debugging purpose 
             # it indicates starting of updated array
-            msg = 111111111
-            self.moisture_publisher.publish(msg)
             print('\n')
 
 
