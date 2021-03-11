@@ -14,18 +14,28 @@ from swarmie_msgs.msg import Obstacle
 
 from mobility.planner import Planner
 from mobility.swarmie import swarmie, TagException, HomeException, ObstacleException, PathException, AbortException, MoveResult
-
+from moisture_sensors.msg import moisture_msg
 
 def plant_walk(num_moves):
     """Do a plant walk `num_moves` times."""
     for move in range(num_moves):
         if rospy.is_shutdown():
             water_plants_exit(-1)
+        rospy.sleep(5)
         # @TODO: get thirstiest plant also weigh in distance
-        try:
-            swarmie.drive_to_plant(random.randint(0,143))
-        except:
-            pass
+        for plant_id in range(len(swarmie.plants)):
+            if swarmie.plants[plant_id]['pot_imp'] > moisture_msg.DRY_SOIL or swarmie.plants[plant_id]['plant_imp'] > moisture_msg.DRY_PLANT:
+                try:
+                    swarmie.drive_to_plant(plant_id)
+                    rospy.loginfo("Watering plant #" + str(plant_id))
+                    rospy.sleep(5)
+                    swarmie.plants[plant_id]['pot_imp'] = moisture_msg.DRY_SOIL - 1
+                    swarmie.plants[plant_id]['plant_imp'] = moisture_msg.DRY_PLANT - 1
+                    pose = swarmie.model_state("plant_"+str(plant_id), "world").pose
+                    swarmie.delete_model("plant_"+str(plant_id))
+                    swarmie.spawn_model("plant_"+str(plant_id), swarmie.pot_model, "", pose,"world")
+                except:
+                    pass
 
 
 def water_plants_exit(code):
