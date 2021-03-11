@@ -48,9 +48,9 @@ class MoistureSensor:
     # TODO: change these decay rate to correct one
     def moisture_decay(self, event=None):
         for i in range(len(self.pots)):
-            self.pots[i]['z_value_temp'] -= 1
-            self.pots[i]['z_value_soil'] -= 1
-            self.pots[i]['z_value_plant'] -= 1
+            self.pots[i]['z_value_temp'] += self.moisture_decay_rate
+            self.pots[i]['z_value_soil'] += self.moisture_decay_rate
+            self.pots[i]['z_value_plant'] += self.moisture_decay_rate
 
 
     # Every 1 second publishes moisture of pot
