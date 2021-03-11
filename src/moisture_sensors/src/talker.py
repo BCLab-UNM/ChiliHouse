@@ -3,7 +3,6 @@
 import rospy
 import random
 from moisture_sensors.msg import moisture_msg
-from std_msgs.msg import Float64
 
 class MoistureSensor:
     # decay rate for plant
@@ -13,7 +12,7 @@ class MoistureSensor:
     pots=[{ 'z_value_plant':random.randint(50, 100), 
             'z_value_soil': random.randint(0, 45),  
             'z_value_temp':random.randint(0, 10)}
-            for num in range(0,10)]
+            for num in range(0,142)]
 
 
     # gets the moisture level from the pots and 
