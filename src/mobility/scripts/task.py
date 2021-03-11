@@ -222,6 +222,7 @@ class Task :
 
 def main() :
     swarmie.start(node_name='task')
+    swarmie.plants_init()
     taskman = Task() 
     while not rospy.is_shutdown():
         taskman.run_next() 
