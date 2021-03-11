@@ -36,12 +36,11 @@ def main(**kwargs):
     global planner, found_tag
     try: 
         planner
-    except NameError: 
+    except NameError:
         from mobility.planner import Planner
         planner = Planner(use_rviz_nav_goal=True)
-    
-    if swarmie.planner_publisher is None:
-        swarmie.planner_publisher = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=10)
+    if not swarmie.planner_publisher:
+        swarmie.planner_publisher = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=10, latch=True)
     if not swarmie.plants:
         swarmie.plants_init()
     swarmie.fingers_open()
