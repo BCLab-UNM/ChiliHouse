@@ -328,9 +328,9 @@ class Swarmie(object):
         self.plants[msg.id]['pot_imp'] = msg.pot_imp
         self.plants[msg.id]['plant_imp'] = msg.plant_imp
         if msg.pot_imp > 40: # @TODO get actul values possibly store as a ros param
-            pose = self.model_state("round_pot_"+str(msg.id), "world").pose
-            self.delete_model("round_pot_"+str(msg.id))
-            self.spawn_model("round_pot_"+str(msg.id), self.thirst_model, "", pose,"world")
+            pose = self.model_state("plant_"+str(msg.id), "world").pose
+            self.delete_model("plant_"+str(msg.id))
+            self.spawn_model("plant_"+str(msg.id), self.thirst_model, "", pose,"world")
             #else: self.spawn_model("round_pot_"+str(msg.id), self.pot_model, "", pose,"world")
         
     
