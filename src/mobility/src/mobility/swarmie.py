@@ -16,6 +16,7 @@ from mobility.srv import Core
 from mapping.srv import GetNavPlan, GetNavPlanRequest
 from mobility.msg import MoveResult, MoveRequest
 from swarmie_msgs.msg import Obstacle 
+from moisture_sensors.msg import moisture_msg
 
 from std_srvs.srv import Empty 
 from std_msgs.msg import UInt8, String, Float32
@@ -260,7 +261,7 @@ class Swarmie(object):
         rospy.Subscriber('home_point', PointStamped, self._home_point)
         rospy.Subscriber('home_point/approx', PointStamped, self._home_point,
                          callback_args=True)
-        # rospy.Subscriber('/plants', Plant, self._plant)                                                   # @TODO: create msg and comment in
+        rospy.Subscriber('/moisture', moisture_msg, self._plant)
         # Wait for Odometry messages to come in.
         # Don't wait for messages on /obstacle because it's published infrequently
         try:
@@ -324,10 +325,16 @@ class Swarmie(object):
     
     @sync(swarmie_lock)
     def _plant(self, msg):
+        if not self.plants:
+            rospy.loginfo("Callback called before plants_init, so calling")
+            self.plants_init()
+        if msg.id >= len(self.plants):
+            rospy.logwarn_throttle(5, "_plant: could not find plant_"+str(msg.id)+"in plants")
+            return
         self.plants[msg.id]['temp'] = msg.temp
         self.plants[msg.id]['pot_imp'] = msg.pot_imp
         self.plants[msg.id]['plant_imp'] = msg.plant_imp
-        if msg.pot_imp > 40: # @TODO get actul values possibly store as a ros param
+        if msg.pot_imp > moisture_msg.DRY_PLANT or msg.pot_imp > moisture_msg.DRY_SOIL: 
             pose = self.model_state("plant_"+str(msg.id), "world").pose
             self.delete_model("plant_"+str(msg.id))
             self.spawn_model("plant_"+str(msg.id), self.thirst_model, "", pose,"world")
