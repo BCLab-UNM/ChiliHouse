@@ -35,6 +35,8 @@
       <arg name="simulation" value="$(arg simulation)"  />
   </include>
 
+  <node name="moisture_sensors" pkg="moisture_sensors" type="talker.py" respawn="true"/> 
+  
   <node name="diagnostics" pkg="diagnostics" type="diags_node.py" respawn="true"/> 
   
   <node name="mobility" pkg="mobility" type="core.py" respawn="true">
