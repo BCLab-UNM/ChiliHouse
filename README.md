@@ -547,3 +547,6 @@ optional arguments:
 When the `planner` node starts, it subscribes to the `goal` topic. When it receives a `PoseStamped` on this topic it will call the `mapping/get_plan` service to get a list of waypoints and then attempt to drive the rover to the goal location, avoiding sonar obstacles and optionally home tags or target tags.
 
 If the `planner` node is running, when you use RViz’s "2D Nav Goal" button to click a point in the map, the rover will attempt to drive to that point.
+
+### To just run the sim with one rover for 10 mins
+`./misc/run_headless_sim.sh -w ./simulation/worlds/NASA-MINDS.world -r 1 -v -d 10 `
