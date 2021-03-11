@@ -3,7 +3,6 @@
 import rospy
 import random
 from moisture_sensors.msg import moisture_msg
-from std_msgs.msg import Int64
 
 class MoistureSensor:
     # decay rate for plant
