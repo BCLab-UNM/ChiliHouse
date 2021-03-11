@@ -81,7 +81,7 @@ addWalls(){
 } #end addWalls
 
 addPot(){
-    $spawn\round_pot/model.sdf -model round_pot_$1 -x $2 -y $3 -z 0
+    $spawn\round_pot/model.sdf -model plant_$1 -x $2 -y $3 -z 0
 } #end addPot
 
 addPots() {    
