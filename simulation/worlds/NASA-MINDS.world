@@ -3682,7 +3682,7 @@
       </model>
       <model name='central_column_1'>
         <pose frame=''>0 0 0 0 -0 0</pose>
-        <scale>1 1 1</scale>
+        <scale>0.33 0.33 0.33</scale>
         <link name='link'>
           <pose frame=''>0 0 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
