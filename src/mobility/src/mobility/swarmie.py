@@ -279,9 +279,9 @@ class Swarmie(object):
                           ': timed out waiting for /targets data.')
                           
         # read some model files
-        with open (rospkg.RosPack().get_path('swarmie')+'/../../simulation/models/round_pot_thirst/model.sdf', 'r') as sdf_file:
+        with open (rospkg.RosPack().get_path('swarmie')+'/../../simulation/models/square_pot_thirst/model.sdf', 'r') as sdf_file:
                 self.thirst_model = sdf_file.read().replace('\n', '')
-        with open (rospkg.RosPack().get_path('swarmie')+'/../../simulation/models/round_pot/model.sdf', 'r') as sdf_file:
+        with open (rospkg.RosPack().get_path('swarmie')+'/../../simulation/models/square_pot/model.sdf', 'r') as sdf_file:
             self.pot_model = sdf_file.read().replace('\n', '')
 
         print ('Welcome', self.rover_name, 'to the world of the future.')
@@ -331,7 +331,7 @@ class Swarmie(object):
             pose = self.model_state("plant_"+str(msg.id), "world").pose
             self.delete_model("plant_"+str(msg.id))
             self.spawn_model("plant_"+str(msg.id), self.thirst_model, "", pose,"world")
-            #else: self.spawn_model("round_pot_"+str(msg.id), self.pot_model, "", pose,"world")
+            #else: self.spawn_model("square_pot_"+str(msg.id), self.pot_model, "", pose,"world")
         
     
     def __drive(self, request, **kwargs):
