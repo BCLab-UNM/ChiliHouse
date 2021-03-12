@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <sdf version='1.6'>
-  <model name='round_pot'>
+  <model name='square_pot'>
     <link name='link_0'>
       <pose frame=''>0 0 0 0 -0 0</pose>
       <inertial>
@@ -22,7 +22,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
             <mesh>
-              <uri>model://round_pot/pot.stl</uri>
+              <uri>model://square_pot/pot.stl</uri>
               <scale>0.033 0.033 0.033</scale>
             </mesh>
         </geometry>
@@ -48,10 +48,9 @@
         <max_contacts>10</max_contacts>
         <pose frame=''>0 0 0.25 0 -0 0</pose>
         <geometry>
-          <cylinder>
-            <radius>0.15</radius>
-            <length>0.4</length>
-          </cylinder>
+          <box>
+              <size>0.4 0.4 0.4</size>
+          </box>
         </geometry>
         <surface>
           <friction>
@@ -100,7 +99,7 @@
         </surface>
       </collision>
     </link>
-    <static>0</static>
+    <static>1</static>
     <allow_auto_disable>1</allow_auto_disable>
   </model>
 </sdf>
