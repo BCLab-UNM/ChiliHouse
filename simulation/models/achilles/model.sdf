@@ -13,7 +13,7 @@
 
 		<link name='base_link'>
 			<inertial>
-				<mass>3</mass>
+				<mass>10</mass>
 				<inertia>
 					<ixx>0.006</ixx>
 					<ixy>0.0</ixy>
