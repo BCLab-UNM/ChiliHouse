@@ -22,7 +22,7 @@ from std_srvs.srv import Empty
 from std_msgs.msg import UInt8, String, Float32
 from nav_msgs.msg import Odometry
 from control_msgs.srv import QueryCalibrationState, QueryCalibrationStateRequest
-from geometry_msgs.msg import Point, PointStamped, PoseStamped, Twist, Pose2D, Pose
+from geometry_msgs.msg import Point, PointStamped, PoseStamped, Twist, Pose2D, Pose, Quaternion
 from apriltags2to1.msg import AprilTagDetection, AprilTagDetectionArray
 
 import threading 
@@ -35,7 +35,7 @@ from mobility import sync
 #@TODO clean up imports
 import random
 from std_msgs.msg import Float64MultiArray
-from gazebo_msgs.srv import GetModelState, DeleteModel, SpawnModel
+from gazebo_msgs.srv import GetModelState, DeleteModel, SpawnModel, GetModelProperties, GetWorldProperties
 import rospkg
 
 class DriveException(Exception):
@@ -246,6 +246,7 @@ class Swarmie(object):
         self._start_gyro_scale_calibration = rospy.ServiceProxy('start_gyro_scale_calibration', Empty)
         self._store_imu_calibration = rospy.ServiceProxy('store_imu_calibration', Empty)
         self.model_state = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
+        self.world_prop = rospy.ServiceProxy('/gazebo/get_world_properties' ,GetWorldProperties) 
         self.delete_model = rospy.ServiceProxy('/gazebo/delete_model', DeleteModel)
         self.spawn_model = rospy.ServiceProxy('/gazebo/spawn_sdf_model', SpawnModel)
 
@@ -336,11 +337,12 @@ class Swarmie(object):
         self.plants[msg.id]['plant_imp'] = msg.plant_imp
         if msg.plant_imp > moisture_msg.DRY_PLANT or msg.pot_imp > moisture_msg.DRY_SOIL: 
             rospy.loginfo("Wilting Chili Detected!!! plant #" + str(msg.id))
-            pose = self.model_state("plant_"+str(msg.id), "world").pose
-            self.delete_model("plant_"+str(msg.id))
-            self.spawn_model("plant_"+str(msg.id), self.thirst_model, "", pose,"world")
-            #else: self.spawn_model("square_pot_"+str(msg.id), self.pot_model, "", pose,"world")
-        
+            #while "plant_"+str(msg.id) in self.world_prop().model_names:
+            #    self.delete_model("plant_"+str(msg.id))
+            #    rospy.sleep(1)
+            #while not "plant_"+str(msg.id) in self.world_prop().model_names:
+            #    self.spawn_model("plant_"+str(msg.id), self.thirst_model, "", Pose(position=self.plants[msg.id]['point'],orientation=Quaternion()),"world")
+            #    rospy.sleep(1)
     
     def __drive(self, request, **kwargs):
         request.obstacles = ~0
