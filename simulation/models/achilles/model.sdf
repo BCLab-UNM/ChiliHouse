@@ -163,48 +163,8 @@
 				</plugin>
 			</sensor>
 
-			<collision name='top_plate_collision'>
-				<pose>0 0 0.12 0 0 0</pose>
-				<geometry>
-					<box>
-						<size>0.25 0.30 0.005</size>
-					</box>
-				</geometry>
-			</collision>
-			<visual name='top_plate_visual'>
-				<pose>0.0006 0 0.12 0 0 0</pose>
-				<geometry>
-					<mesh>
-						<uri>model://swarmie/meshes/CoverPlate.stl</uri>
-					</mesh>
-				</geometry>
-				<material>
-					<script>
-						<name>Gazebo/FlatBlack</name>
-					</script>
-				</material>
-			</visual>
-
-			<collision name='cow_catcher_front_left_collision'>
-				<pose>0.1675 0.06 -0.05 0 -0.4 0.3</pose>
-				<geometry>
-					<box>
-					  <size>0.01 0.08 0.06</size>
-					</box>
-				</geometry>
-			</collision>
-
 			<collision name='wheel_guard_front_left_collision'>
 				<pose>0.148 0.13 -0.05 0 0 0</pose>
-				<geometry>
-					<box>
-					  <size>0.01 0.08 0.06</size>
-					</box>
-				</geometry>
-			</collision>
-
-			<collision name='cow_catcher_front_right_collision'>
-				<pose>0.1675 -0.06 -0.05 0 -0.4 -0.3</pose>
 				<geometry>
 					<box>
 					  <size>0.01 0.08 0.06</size>
@@ -220,21 +180,6 @@
 					</box>
 				</geometry>
 			</collision>
-
-			<visual name='cow_catcher_front_visual'>
-				<pose>0.1675 0 -0.08 1.57079 0 0</pose>
-				<geometry>
-					<mesh>
-						<uri>model://swarmie/meshes/CowCatcherFront.stl</uri>
-						<scale>0.001 0.001 0.001</scale>
-					</mesh>
-				</geometry>
-				<material>
-					<script>
-						<name>Gazebo/FlatBlack</name>
-					</script>
-				</material>
-			</visual>
 
 			<collision name='cow_catcher_back_lower_collision'>
 				<pose>-0.1305 0.0 -0.0665 1.57079 1.05 0.0</pose>
@@ -441,10 +386,11 @@
 				</surface>
 			</collision>
 			<visual name="visual">
-				<pose>0 0 0 0 0 0</pose>
+				<pose>-00.05 0 0 1.5708 0 1.5708</pose>
 				<geometry>
 					<mesh>
-						<uri>model://swarmie/meshes/GripperFingerRight.stl</uri>
+						<uri>model://swarmie/meshes/WateringArm.stl</uri>
+						<scale>0.0011 0.0011 0.0011</scale>
 					</mesh>
 				</geometry>
 				<material>
