@@ -31,9 +31,14 @@ def plant_walk(num_moves):
                     rospy.sleep(5)
                     swarmie.plants[plant_id]['pot_imp'] = moisture_msg.DRY_SOIL - 1
                     swarmie.plants[plant_id]['plant_imp'] = moisture_msg.DRY_PLANT - 1
-                    pose = swarmie.model_state("plant_"+str(plant_id), "world").pose
-                    swarmie.delete_model("plant_"+str(plant_id))
-                    swarmie.spawn_model("plant_"+str(plant_id), swarmie.pot_model, "", pose,"world")
+                    """
+                    while self.model_state_prop("plant_"+str(plant_id)).success:
+                        self.delete_model("plant_"+str(plant_id))
+                        rospy.sleep(0.5)
+                    while not self.model_state_prop("plant_"+str(plant_id)).success:
+                        self.spawn_model("plant_"+str(plant_id), self.pot_model, "", Pose(position=self.plants[msg.id]['point'],orientation=Quaternion()),"world")
+                        rospy.sleep(0.5)
+                    """
                 except:
                     pass
 
