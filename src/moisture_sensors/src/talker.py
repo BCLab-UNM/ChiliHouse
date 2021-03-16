@@ -10,14 +10,10 @@ class MoistureSensor:
     # need to chagnge this value to real decay rate
     moisture_decay_rate = 1
     moisture_arr = []
-    # pots=[{ 'z_value_plant':random.randint(50, 100), 
-    #         'z_value_soil': random.randint(0, 45),  
-    #         'z_value_temp':random.randint(0, 10)}
-    #         for num in range(0,10)]
-
-    pots=[{'z_value_plant': 56, 'z_value_soil': 45, 'z_value_temp': 23 },
-          {'z_value_plant': 76, 'z_value_soil': 65, 'z_value_temp': 13 },
-          {'z_value_plant': 96, 'z_value_soil': 85, 'z_value_temp': 33 }]
+    pots=[{ 'z_value_plant':random.randint(30, 70), 
+            'z_value_soil': random.randint(30, 55),  
+            'z_value_temp':random.randint(0, 10)}
+            for num in range(0,142)]
 
 
     # gets the moisture level from the pots and 
