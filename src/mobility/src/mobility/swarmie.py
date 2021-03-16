@@ -35,7 +35,7 @@ from mobility import sync
 #@TODO clean up imports
 import random
 from std_msgs.msg import Float64MultiArray
-from gazebo_msgs.srv import GetModelState, DeleteModel, SpawnModel, GetModelProperties, GetWorldProperties
+from gazebo_msgs.srv import GetModelState, SpawnModel, GetModelProperties, GetWorldProperties, DeleteLight
 import rospkg
 
 class DriveException(Exception):
@@ -168,6 +168,9 @@ class Swarmie(object):
         self.xform = None
         self.plants=list()
         self.planner_publisher = None
+        self.spawn_model = None
+        self.delete_light = None
+        self.red_light = None
 
 
     def start(self, **kwargs):
@@ -246,9 +249,8 @@ class Swarmie(object):
         self._start_gyro_scale_calibration = rospy.ServiceProxy('start_gyro_scale_calibration', Empty)
         self._store_imu_calibration = rospy.ServiceProxy('store_imu_calibration', Empty)
         self.model_state = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
-        self.world_prop = rospy.ServiceProxy('/gazebo/get_world_properties' ,GetWorldProperties) 
-        self.delete_model = rospy.ServiceProxy('/gazebo/delete_model', DeleteModel)
         self.spawn_model = rospy.ServiceProxy('/gazebo/spawn_sdf_model', SpawnModel)
+        self.delete_light = rospy.ServiceProxy('/gazebo/delete_light', DeleteLight)
 
         # Transform listener. Use this to transform between coordinate spaces.
         # Transform messages must predate any sensor messages so initialize this first.
@@ -280,11 +282,9 @@ class Swarmie(object):
             rospy.logwarn(self.rover_name +
                           ': timed out waiting for /targets data.')
                           
-        # read some model files
-        with open (rospkg.RosPack().get_path('swarmie')+'/../../simulation/models/square_pot_thirst/model.sdf', 'r') as sdf_file:
-                self.thirst_model = sdf_file.read().replace('\n', '')
-        with open (rospkg.RosPack().get_path('swarmie')+'/../../simulation/models/square_pot/model.sdf', 'r') as sdf_file:
-            self.pot_model = sdf_file.read().replace('\n', '')
+        # read the red_light model files
+        with open (rospkg.RosPack().get_path('swarmie')+'/../../simulation/models/red_light/model.sdf', 'r') as sdf_file:
+            self.red_light = sdf_file.read().replace('\n', '')
 
         print ('Welcome', self.rover_name, 'to the world of the future.')
 
@@ -337,12 +337,10 @@ class Swarmie(object):
         self.plants[msg.id]['plant_imp'] = msg.plant_imp
         if msg.plant_imp > moisture_msg.DRY_PLANT or msg.pot_imp > moisture_msg.DRY_SOIL: 
             rospy.loginfo("Wilting Chili Detected!!! plant #" + str(msg.id))
-            #while "plant_"+str(msg.id) in self.world_prop().model_names:
-            #    self.delete_model("plant_"+str(msg.id))
-            #    rospy.sleep(1)
-            #while not "plant_"+str(msg.id) in self.world_prop().model_names:
-            #    self.spawn_model("plant_"+str(msg.id), self.thirst_model, "", Pose(position=self.plants[msg.id]['point'],orientation=Quaternion()),"world")
-            #    rospy.sleep(1)
+            if not self.red_light:
+                rospy.loginfo("red_light not defined waiting")
+                rospy.sleep(3)
+            self.spawn_model("plant_light_"+str(msg.id), self.red_light.replace("2 2", str(self.plants[msg.id]['point'].x)+" "+str(self.plants[msg.id]['point'].y)) ,"", Pose(), "world")
     
     def __drive(self, request, **kwargs):
         request.obstacles = ~0
