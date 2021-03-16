@@ -21,26 +21,26 @@ def plant_walk(num_moves):
     for move in range(num_moves):
         if rospy.is_shutdown():
             water_plants_exit(-1)
-        rospy.sleep(5)
-        # @TODO: get thirstiest plant also weigh in distance
-        for plant_id in range(len(swarmie.plants)):
-            if swarmie.plants[plant_id]['pot_imp'] > moisture_msg.DRY_SOIL or swarmie.plants[plant_id]['plant_imp'] > moisture_msg.DRY_PLANT:
-                try:
-                    swarmie.drive_to_plant(plant_id)
-                    rospy.loginfo("Watering plant #" + str(plant_id))
-                    rospy.sleep(5)
-                    swarmie.plants[plant_id]['pot_imp'] = moisture_msg.DRY_SOIL - 1
-                    swarmie.plants[plant_id]['plant_imp'] = moisture_msg.DRY_PLANT - 1
-                    """
-                    while self.model_state_prop("plant_"+str(plant_id)).success:
-                        self.delete_model("plant_"+str(plant_id))
-                        rospy.sleep(0.5)
-                    while not self.model_state_prop("plant_"+str(plant_id)).success:
-                        self.spawn_model("plant_"+str(plant_id), self.pot_model, "", Pose(position=self.plants[msg.id]['point'],orientation=Quaternion()),"world")
-                        rospy.sleep(0.5)
-                    """
-                except:
-                    pass
+        rospy.sleep(1)
+        # get thirstiest plant also weigh in distance
+        plant_ids = [ plant_id for plant_id in range(len(swarmie.plants)) if swarmie.plants[plant_id]['pot_imp'] > moisture_msg.DRY_SOIL or swarmie.plants[plant_id]['plant_imp'] > moisture_msg.DRY_PLANT ]
+        while not plant_ids:
+            rospy.loginfo("Waiting for plants to water")
+            rospy.sleep(5)
+            plant_ids = [ plant_id for plant_id in range(len(swarmie.plants)) if swarmie.plants[plant_id]['pot_imp'] > moisture_msg.DRY_SOIL or swarmie.plants[plant_id]['plant_imp'] > moisture_msg.DRY_PLANT ]
+        
+        cur_pose = swarmie.get_odom_location().get_pose()
+        # get the closest plant
+        plant_id = min(plant_ids, key=lambda k: math.sqrt((swarmie.plants[k]['point'].x - cur_pose.x) ** 2 + (swarmie.plants[k]['point'].y - cur_pose.y) ** 2))
+        try:
+            swarmie.drive_to_plant(plant_id)
+            rospy.loginfo("Watering plant #" + str(plant_id))
+            rospy.sleep(5)
+            swarmie.plants[plant_id]['pot_imp'] = 10
+            swarmie.plants[plant_id]['plant_imp'] = 10
+            swarmie.delete_light("plant_light_"+str(plant_id))
+        except:
+            pass
 
 
 def water_plants_exit(code):
