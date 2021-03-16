@@ -944,12 +944,14 @@ class Swarmie(object):
         rospy.loginfo("Done populating plant coordinates and offsets")
         
     def drive_to_plant(self, plant_num, **kwargs):
-        self.planner_publisher.publish(PoseStamped(pose=Pose(position=self.plants[plant_num]['point'])))
-        while not swarmie.get_odom_location().at_goal(self.plants[plant_num]['point'], 1.1) and not rospy.is_shutdown():
+        plant_point = self.plants[plant_num]['point']
+        plant_point.x = plant_point.x + 1.308  #  this is a hack ##################################################
+        self.planner_publisher.publish(PoseStamped(pose=Pose(position=plant_point)))
+        while not swarmie.get_odom_location().at_goal(plant_point, 1.1) and not rospy.is_shutdown():
             rospy.sleep(1)  # @TODO add a timeout incase the planer fails
         rospy.sleep(1)
         # @TODO: might use the offset and ignore sonar
-        self.drive_to(self.plants[plant_num]['point']) #get a bit closer 
+        self.drive_to(plant_point) #get a bit closer 
         
     def drive_to(self, place, claw_offset=0, **kwargs):
         '''Drive directly to a particular point in space. The point must be in 
