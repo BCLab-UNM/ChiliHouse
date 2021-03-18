@@ -163,6 +163,52 @@
 				</plugin>
 			</sensor>
 
+			<collision name='top_plate_collision'>
+				<pose>0 0 0.12 0 0 0</pose>
+				<geometry>
+					<box>
+						<size>0.25 0.30 0.005</size>
+					</box>
+				</geometry>
+			</collision>
+			<visual name='top_plate_visual'>
+				<pose>0.0006 0 0.12 0 0 0</pose>
+				<geometry>
+					<mesh>
+						<uri>model://swarmie/meshes/CoverPlate.stl</uri>
+					</mesh>
+				</geometry>
+				<material>
+					<script>
+						<name>Gazebo/FlatBlack</name>
+					</script>
+				</material>
+			</visual>
+
+			<visual name='watering_arm'>
+				<pose>0.22 -0.16 -0.14 -1.57079 3.14159 0</pose>
+				<geometry>
+					<mesh>
+						<uri>model://swarmie/meshes/WateringArm.stl</uri>
+						<scale>0.015 0.015 0.015</scale>
+					</mesh>
+				</geometry>
+				<material>
+					<script>
+						<name>Gazebo/Grey</name>
+					</script>
+				</material>
+			</visual>
+
+			<collision name='cow_catcher_front_left_collision'>
+				<pose>0.1675 0.06 -0.05 0 -0.4 0.3</pose>
+				<geometry>
+					<box>
+					  <size>0.01 0.08 0.06</size>
+					</box>
+				</geometry>
+			</collision>
+
 			<collision name='wheel_guard_front_left_collision'>
 				<pose>0.148 0.13 -0.05 0 0 0</pose>
 				<geometry>
