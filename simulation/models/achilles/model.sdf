@@ -350,19 +350,6 @@
 					</friction>
 				</surface>
 			</collision>
-			<visual name="visual">
-				<pose>0 0 0 0 0 0</pose>
-				<geometry>
-					<mesh>
-						<uri>model://swarmie/meshes/GripperFingerLeft.stl</uri>
-					</mesh>
-				</geometry>
-				<material>
-					<script>
-						<name>Gazebo/Grey</name>
-					</script>
-				</material>
-			</visual>
 			<sensor name='finger' type='contact'>
 			  <contact>
 			    <collision>collision</collision>
