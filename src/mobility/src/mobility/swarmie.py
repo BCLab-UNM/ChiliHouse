@@ -947,7 +947,7 @@ class Swarmie(object):
         plant_point = self.plants[plant_num]['point']
         plant_point.x = plant_point.x + 1.308  #  this is a hack ##################################################
         self.planner_publisher.publish(PoseStamped(pose=Pose(position=plant_point)))
-        while not swarmie.get_odom_location().at_goal(plant_point, 1.1) and not rospy.is_shutdown():
+        while not swarmie.get_odom_location().at_goal(plant_point, 0.6) and not rospy.is_shutdown():
             rospy.sleep(1)  # @TODO add a timeout incase the planer fails
         rospy.sleep(1)
         # @TODO: might use the offset and ignore sonar
