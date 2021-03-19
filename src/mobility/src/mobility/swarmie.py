@@ -951,7 +951,7 @@ class Swarmie(object):
             rospy.sleep(1)  # @TODO add a timeout incase the planer fails
         rospy.sleep(1)
         # @TODO: might use the offset and ignore sonar
-        self.drive_to(plant_point) #get a bit closer 
+        self.drive_to(plant_point, claw_offset=0.3, ignore=Obstacle.IS_SONAR) #get a bit closer 
         
     def drive_to(self, place, claw_offset=0, **kwargs):
         '''Drive directly to a particular point in space. The point must be in 
