@@ -35,12 +35,22 @@ def plant_walk(num_moves):
         try:
             swarmie.drive_to_plant(plant_id)
             rospy.loginfo("Watering plant #" + str(plant_id))
-            rospy.sleep(5)
+            rospy.sleep(2)
             swarmie.plants[plant_id]['pot_imp'] = 10
             swarmie.plants[plant_id]['plant_imp'] = 10
             swarmie.delete_light("plant_light_"+str(plant_id))
-        except:
-            pass
+        except rospy.ServiceException,e:
+            rospy.loginfo("plant_walk: ServiceException%s"%e)
+        except PathException:
+            rospy.loginfo("plant_walk: PathException")
+        except TagException:
+            rospy.loginfo("plant_walk: TagException")
+        except HomeException:
+            rospy.loginfo("plant_walk: HomeException")
+        except ObstacleException:
+            rospy.loginfo("plant_walk: ObstacleException")
+        except Exception, e:
+            rospy.loginfo("exception: %s"%e)
 
 
 def water_plants_exit(code):
