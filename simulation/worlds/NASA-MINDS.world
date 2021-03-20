@@ -5474,7 +5474,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -5668,7 +5668,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -5862,7 +5862,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -6056,7 +6056,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -6250,7 +6250,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -6444,7 +6444,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -6638,7 +6638,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -6832,7 +6832,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -7026,7 +7026,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -7220,7 +7220,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -7414,7 +7414,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -7608,7 +7608,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -7802,7 +7802,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -7996,7 +7996,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -8190,7 +8190,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -8384,7 +8384,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -8578,7 +8578,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -8772,7 +8772,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -8966,7 +8966,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -9160,7 +9160,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -9354,7 +9354,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -9548,7 +9548,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -9742,7 +9742,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -9936,7 +9936,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -10130,7 +10130,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -10324,7 +10324,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -10518,7 +10518,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -10712,7 +10712,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -10906,7 +10906,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -11100,7 +11100,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -11294,7 +11294,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -11488,7 +11488,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -11682,7 +11682,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -11876,7 +11876,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -12070,7 +12070,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -12264,7 +12264,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -12458,7 +12458,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -12652,7 +12652,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -12846,7 +12846,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -13040,7 +13040,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -13234,7 +13234,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -13428,7 +13428,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -13622,7 +13622,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -13816,7 +13816,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -14010,7 +14010,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -14204,7 +14204,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -14398,7 +14398,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -14592,7 +14592,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -14786,7 +14786,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -14980,7 +14980,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -15174,7 +15174,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -15368,7 +15368,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -15562,7 +15562,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -15756,7 +15756,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -15950,7 +15950,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -16144,7 +16144,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -16338,7 +16338,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -16532,7 +16532,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -16726,7 +16726,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -16920,7 +16920,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -17114,7 +17114,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -17308,7 +17308,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -17502,7 +17502,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -17696,7 +17696,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -17890,7 +17890,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -18084,7 +18084,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -18278,7 +18278,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -18472,7 +18472,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -18666,7 +18666,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -18860,7 +18860,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -19054,7 +19054,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -19248,7 +19248,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -19442,7 +19442,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -19636,7 +19636,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -19830,7 +19830,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -20024,7 +20024,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -20218,7 +20218,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -20412,7 +20412,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -20606,7 +20606,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -20800,7 +20800,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -20994,7 +20994,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -21188,7 +21188,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -21382,7 +21382,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -21576,7 +21576,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -21770,7 +21770,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -21964,7 +21964,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -22158,7 +22158,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -22352,7 +22352,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -22546,7 +22546,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -22740,7 +22740,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -22934,7 +22934,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -23128,7 +23128,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -23322,7 +23322,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -23516,7 +23516,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -23710,7 +23710,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -23904,7 +23904,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -24098,7 +24098,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -24292,7 +24292,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -24486,7 +24486,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -24680,7 +24680,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -24874,7 +24874,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -25068,7 +25068,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -25262,7 +25262,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -25456,7 +25456,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -25650,7 +25650,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -25844,7 +25844,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -26038,7 +26038,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -26232,7 +26232,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -26426,7 +26426,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -26620,7 +26620,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -26814,7 +26814,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -27008,7 +27008,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -27202,7 +27202,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -27396,7 +27396,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -27590,7 +27590,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -27784,7 +27784,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -27978,7 +27978,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -28172,7 +28172,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -28366,7 +28366,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -28560,7 +28560,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -28754,7 +28754,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -28948,7 +28948,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -29142,7 +29142,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -29336,7 +29336,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -29530,7 +29530,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -29724,7 +29724,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -29918,7 +29918,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -30112,7 +30112,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -30306,7 +30306,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -30500,7 +30500,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -30694,7 +30694,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -30888,7 +30888,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -31082,7 +31082,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -31276,7 +31276,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -31470,7 +31470,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -31664,7 +31664,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -31858,7 +31858,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -32052,7 +32052,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -32246,7 +32246,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -32440,7 +32440,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -32634,7 +32634,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -32828,7 +32828,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
@@ -33022,7 +33022,7 @@
       </collision>
     </link>
     <link name='link_0_0'>
-      <pose frame=''>-0.011441 -0.008338 0.308474 0 -0 0</pose>
+      <pose frame=''>0 0 0.19 0 -0 0</pose>
       <inertial>
         <mass>0.000736153</mass>
         <inertia>
