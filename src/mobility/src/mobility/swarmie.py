@@ -167,7 +167,6 @@ class Swarmie(object):
 
         self.xform = None
         self.plants=list()
-        self.planner_publisher = None
         self.spawn_model = None
         self.delete_light = None
         self.red_light = None
@@ -340,7 +339,9 @@ class Swarmie(object):
             if not self.red_light:
                 rospy.loginfo("red_light not defined waiting")
                 rospy.sleep(3)
-            self.spawn_model("plant_light_"+str(msg.id), self.red_light.replace("2 2", str(self.plants[msg.id]['point'].x)+" "+str(self.plants[msg.id]['point'].y)) ,"", Pose(), "world")
+            if self.plants[msg.id]['light'] == False:
+                self.spawn_model("plant_light_"+str(msg.id), self.red_light.replace("2 2", str(self.plants[msg.id]['point'].x)+" "+str(self.plants[msg.id]['point'].y)) ,"", Pose(), "world")
+                self.plants[msg.id]['light'] = True
     
     def __drive(self, request, **kwargs):
         request.obstacles = ~0
@@ -365,8 +366,11 @@ class Swarmie(object):
 
         if 'angular' in kwargs:
             request.angular = kwargs['angular']
-            
-        value = self.control([request]).result.result
+        value = 0
+        try:
+            value = self.control([request]).result.result
+        except rospy.ServiceException:
+            rospy.loginfo("__drive: rospy.ServiceException")
 
         # Always raise AbortExceptions when the service response is USER_ABORT,
         # even if throw=False was passed as a keyword argument.
@@ -940,18 +944,8 @@ class Swarmie(object):
         rospy.loginfo("Populating plant coordinates and offsets")
         for plant_num in range(0,143):
             plant_point=self.model_state("plant_"+str(plant_num), "world").pose.position
-            self.plants.append({'point':plant_point, 'temp':0, 'pot_imp':0, 'plant_imp':0})
+            self.plants.append({'point':plant_point, 'temp':0, 'pot_imp':0, 'plant_imp':0,'light':False})
         rospy.loginfo("Done populating plant coordinates and offsets")
-        
-    def drive_to_plant(self, plant_num, **kwargs):
-        plant_point = self.plants[plant_num]['point']
-        plant_point.x = plant_point.x + 1.308  #  this is a hack ##################################################
-        self.planner_publisher.publish(PoseStamped(pose=Pose(position=plant_point)))
-        while not swarmie.get_odom_location().at_goal(plant_point, 0.6) and not rospy.is_shutdown():
-            rospy.sleep(1)  # @TODO add a timeout incase the planer fails
-        rospy.sleep(1)
-        # @TODO: might use the offset and ignore sonar
-        self.drive_to(plant_point, claw_offset=0.3, ignore=Obstacle.IS_SONAR) #get a bit closer 
         
     def drive_to(self, place, claw_offset=0, **kwargs):
         '''Drive directly to a particular point in space. The point must be in 
