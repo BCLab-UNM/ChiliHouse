@@ -54,7 +54,7 @@ startGazeboClient() {
 } #end startGazeboClient
 
 addCollectionZone() {
-	$spawn\collection_disk/model.sdf -model collection_disk -x 0 -y 0 -z 0 -R 0 -P 0 -Y 0 
+	$spawn\collection_disk/model.sdf -model collection_disk -x 1.308 -y 0 -z 0 -R 0 -P 0 -Y 0 
 	echo -e "$cyan Attempted to add collection_zone: name=collection_disk, x=0, y=0, z=0, roll=0, pitch=0, yaw=0 $reset"
 } #end addCollectionZone
 
@@ -155,7 +155,7 @@ addRovers(){
 	# Delays between adding rovers and starting their nodes in seconds
 	MODEL_ADD_INTERVAL=3s
 	# Specify rover start coordinates
-	ROVER_POSITIONS_X=( -1.308 0.000 1.308 0.000 1.072 -1.072 -1.072 1.072 )
+	ROVER_POSITIONS_X=( 0 0.000 1.308 0.000 1.072 -1.072 -1.072 1.072 )
 	ROVER_POSITIONS_Y=( 0.000 -1.308 0.000 1.308 1.072 -1.072 1.072 -1.072 )
 	# In this case, the yaw is the value that turns rover "left" and "right" */
 	ROVER_YAWS=( 0.000 1.571 -3.142 -1.571 -2.356 0.785 -0.785 2.356 )
