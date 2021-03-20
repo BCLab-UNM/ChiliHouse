@@ -968,12 +968,11 @@ class Swarmie(object):
                                                  math.atan2(place.y - loc.y,
                                                             place.x - loc.x))
         effective_dist = dist - claw_offset
-
+        self.turn(angle, **kwargs)
         if effective_dist < 0:
             # The driver API skips the turn state if the request distance is
             # negative. This ensures the rover will perform the turn before
             # backing up slightly in this case.
-            self.turn(angle, **kwargs)
             return self.drive(effective_dist, **kwargs)
 
         req = MoveRequest(
