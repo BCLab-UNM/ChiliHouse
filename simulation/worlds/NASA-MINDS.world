@@ -116,7 +116,7 @@
         <collision name='Wall_118_Collision'>
           <geometry>
             <box>
-                <size>1.94177 0.15 2.5</size>
+              <size>1.94177 0.15 2.5</size>
             </box>
           </geometry>
           <pose frame=''>0 0 1.25 0 -0 0</pose>
@@ -3242,9 +3242,9 @@
     </model>
     <state world_name='default'>
       <sim_time>8746 449000000</sim_time>
-      <real_time>98 785373453</real_time>
-      <wall_time>1614597827 288333044</wall_time>
-      <iterations>97132</iterations>
+      <real_time>0 0</real_time>
+      <wall_time>1616241960 382805775</wall_time>
+      <iterations>0</iterations>
       <model name='CircularFence'>
         <pose frame=''>0.1565 0.6213 -0.024158 0 -0 0</pose>
         <scale>1 1 1</scale>
@@ -3682,10 +3682,10 @@
         </link>
       </model>
       <model name='central_column'>
-        <pose frame=''>0 0 0 0 -0 0</pose>
+        <pose frame=''>1.308 0 0 0 -0 0</pose>
         <scale>0.25 0.25 0.25</scale>
         <link name='link'>
-          <pose frame=''>0 0 0 0 -0 0</pose>
+          <pose frame=''>1.308 0 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
