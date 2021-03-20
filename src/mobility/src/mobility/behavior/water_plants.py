@@ -77,7 +77,7 @@ def drive_to_plant(plant_num):
                 water_plants_exit(-1) # FAIL
         counter += 1
     try:
-        swarmie.drive_to(plant_point, claw_offset=0.4, ignore=Obstacle.VISION_SAFE | Obstacle.IS_SONAR, timeout=3,**swarmie.speed_slow) #get a bit closer 
+        swarmie.drive_to(plant_point, claw_offset=0.5, ignore=Obstacle.VISION_SAFE | Obstacle.IS_SONAR, timeout=3,**swarmie.speed_slow) #get a bit closer 
     except ObstacleException:
         pass
 
