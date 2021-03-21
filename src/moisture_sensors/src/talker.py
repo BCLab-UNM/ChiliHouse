@@ -10,47 +10,66 @@ class MoistureSensor:
     # need to chagnge this value to real decay rate
     moisture_decay_rate = 1
     moisture_arr = []
-    pots=[{ 'z_value_plant':random.randint(50, 100), 
-            'z_value_soil': random.randint(0, 45),  
-            'z_value_temp':random.randint(0, 10)}
-            for num in range(0,10)]
+    # pots=[{ 'z_value_plant':random.randint(50, 100), 
+    #         'z_value_soil': random.randint(0, 45),  
+    #         'z_value_temp':random.randint(0, 10)}
+    #         for num in range(0,10)]
+
+    pots=[{'z_value_plant': 56, 'z_value_soil': 45, 'z_value_temp': 23 }]
+        #   {'z_value_plant': 76, 'z_value_soil': 65, 'z_value_temp': 13 },
+        #   {'z_value_plant': 96, 'z_value_soil': 85, 'z_value_temp': 33 }]
 
 
     # gets the moisture level from the pots and 
     # appends to the moisture_arr
     def get_pot_moisture(self):
-        pots = self.pots
-        for x in range(len(pots)):
-            z_value_plant = pots[x]['z_value_plant']
-            z_value_soil = pots[x]['z_value_soil']
+        for x in range(len(self.pots)):
+            z_value_plant = self.pots[x]['z_value_plant']
+            z_value_soil = self.pots[x]['z_value_soil']
             # moisture level is the difference between 
             # z value of plant and z value of soil
             moisture_level = abs(z_value_soil - z_value_plant)
             self.moisture_arr.append(moisture_level)
         return self.moisture_arr
-        
+
+
+    # returns the pots (list)
+    def getPots(self):
+        return self.pots
+
+    
+    # sets the value of specific pot
+    def setPotsValue(self):
+        print('this is talker')
+        self.pots[0]['z_value_temp'] = 760
+        self.pots[0]['z_value_soil'] = 650
+        self.pots[0]['z_value_plant'] = 130
+        print('this is talker end')
+
 
     # gets moinsture level from moisture_arr and
     # decreases each moisture level by moisture_decay value
     def moisture_decay(self, event=None):
-        for x in range(len(self.pots)):
-            self.moisture_arr[x] = self.moisture_arr[x] - self.moisture_decay_rate
+        for i in range(len(self.pots)):
+            self.pots[i]['z_value_temp'] -= 1
+            self.pots[i]['z_value_soil'] -= 1
+            self.pots[i]['z_value_plant'] -= 1
 
 
     # Every 1 second publishes moisture of pot
     def publish_pot_moisture(self, event=None):
-        pots = self.pots
         self.moisture_publisher = rospy.Publisher("/moisture", moisture_msg, queue_size=10)
         rate = rospy.Rate(0.7)
         msg = moisture_msg()
         while not rospy.is_shutdown():
+            print(self.pots[0])
             ms.moisture_decay()
-            for i in range(len(pots)):
+            for i in range(len(self.pots)):
                 # print(self.moisture_arr[i])
                 msg.id = i
-                msg.temp = pots[i]['z_value_temp']
-                msg.pot_imp = pots[i]['z_value_soil']
-                msg.plant_imp = pots[i]['z_value_plant']
+                msg.temp = self.pots[i]['z_value_temp']
+                msg.pot_imp = self.pots[i]['z_value_soil']
+                msg.plant_imp = self.pots[i]['z_value_plant']
                 self.moisture_publisher.publish(msg)
                 i = i+1
                 rate.sleep()
@@ -59,13 +78,19 @@ class MoistureSensor:
             print('\n')
 
 
+    def initiate(self):
+        self.get_pot_moisture()
+        self.publish_pot_moisture()
+
+
 if __name__ == '__main__':
     rospy.init_node("moistures_sensors_node")
 
     # Create an instance of Moisture sensor
     ms = MoistureSensor()
+    ms.initiate()
 
-    ms.get_pot_moisture()
+    # ms.get_pot_moisture()
     
-    ms.publish_pot_moisture()
+    # ms.publish_pot_moisture()
         
