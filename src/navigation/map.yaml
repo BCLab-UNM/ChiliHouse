@@ -1,5 +1,5 @@
 image: src/occupancytest_out.jpg
-resolution: .009
+resolution: .01
 origin: [-13.0, -15.0, 0.0]
 occupied_thresh: 0.65
 free_thresh: 0.196
