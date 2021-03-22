@@ -494,7 +494,7 @@ class Planner:
         avoid_targets = args[0]
         avoid_home = args[1]
         goal = Pose2D(x=msg.pose.position.x, y=msg.pose.position.y)
-        tolerance = 0.0
+        tolerance = 0.5
 
         self.drive_to(goal, tolerance,
                       avoid_targets=avoid_targets, avoid_home=avoid_home)
