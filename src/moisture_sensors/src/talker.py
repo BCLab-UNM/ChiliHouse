@@ -3,6 +3,7 @@
 import rospy
 import random
 from moisture_sensors.msg import moisture_msg
+from std_msgs.msg import Int64
 
 class MoistureSensor:
     # decay rate for plant
@@ -14,9 +15,9 @@ class MoistureSensor:
     #         'z_value_temp':random.randint(0, 10)}
     #         for num in range(0,10)]
 
-    pots=[{'z_value_plant': 56, 'z_value_soil': 45, 'z_value_temp': 23 }]
-        #   {'z_value_plant': 76, 'z_value_soil': 65, 'z_value_temp': 13 },
-        #   {'z_value_plant': 96, 'z_value_soil': 85, 'z_value_temp': 33 }]
+    pots=[{'z_value_plant': 56, 'z_value_soil': 45, 'z_value_temp': 23 },
+          {'z_value_plant': 76, 'z_value_soil': 65, 'z_value_temp': 13 },
+          {'z_value_plant': 96, 'z_value_soil': 85, 'z_value_temp': 33 }]
 
 
     # gets the moisture level from the pots and 
@@ -38,16 +39,17 @@ class MoistureSensor:
 
     
     # sets the value of specific pot
-    def setPotsValue(self):
-        print('this is talker')
-        self.pots[0]['z_value_temp'] = 760
-        self.pots[0]['z_value_soil'] = 650
-        self.pots[0]['z_value_plant'] = 130
-        print('this is talker end')
+    def setPotsValue(self, potId):
+        print('Updating pot value...')
+        #  TODO: change these value to correct one
+        self.pots[potId]['z_value_temp'] = 760
+        self.pots[potId]['z_value_soil'] = 650
+        self.pots[potId]['z_value_plant'] = 130
 
 
     # gets moinsture level from moisture_arr and
     # decreases each moisture level by moisture_decay value
+    # TODO: change these decay rate to correct one
     def moisture_decay(self, event=None):
         for i in range(len(self.pots)):
             self.pots[i]['z_value_temp'] -= 1
@@ -61,10 +63,9 @@ class MoistureSensor:
         rate = rospy.Rate(0.7)
         msg = moisture_msg()
         while not rospy.is_shutdown():
-            print(self.pots[0])
             ms.moisture_decay()
             for i in range(len(self.pots)):
-                # print(self.moisture_arr[i])
+                print(self.pots[i])
                 msg.id = i
                 msg.temp = self.pots[i]['z_value_temp']
                 msg.pot_imp = self.pots[i]['z_value_soil']
@@ -72,15 +73,31 @@ class MoistureSensor:
                 self.moisture_publisher.publish(msg)
                 i = i+1
                 rate.sleep()
-            # this value is just for debugging purpose 
-            # it indicates starting of updated array
             print('\n')
 
 
+    # gets the data from publisher's node
+    def callback(self, data):
+        # TODO: need to change this logic
+        if (data.data == 10):
+            print('Watered pot: ', data.data )
+            potID = 2
+            # this pot id is the response from swarmie i.e. data.data
+            # assuming data is int type
+            self.setPotsValue(potID)
+                
+    
+    # listens to the swarmie's node to update the pot values, once it's watered
+    def listener(self):
+        # TODO: change the chatter node to relavant one
+        rospy.Subscriber("chatter", Int64, self.callback)
+
+
     def initiate(self):
+        self.listener()
         self.get_pot_moisture()
         self.publish_pot_moisture()
-
+        
 
 if __name__ == '__main__':
     rospy.init_node("moistures_sensors_node")
@@ -88,8 +105,4 @@ if __name__ == '__main__':
     # Create an instance of Moisture sensor
     ms = MoistureSensor()
     ms.initiate()
-
-    # ms.get_pot_moisture()
-    
-    # ms.publish_pot_moisture()
         
