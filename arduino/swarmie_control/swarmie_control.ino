@@ -24,12 +24,8 @@
 ////////////////
 
 //Gripper (HS-485HB Servo)
-byte fingersPin = 9;
-byte wristPin = 12;
-int fingerMin = 800; //if you want to shift 0 to a new location raise min; this is closed
-int fingerMax = 2600; //if you want to limit max travel lower max; this is open
-int wristMin = 1400; //this is up
-int wristMax = 2600; //this is down
+byte pumpPin0 = 9;
+byte pumpPin1 = 12;
 
 //Movement (VNH5019 Motor Driver Carrier)
 byte rightDirectionA = A3; //"clockwise" input
@@ -65,8 +61,6 @@ LSM303 magnetometer_accelerometer;
 LPS pressure;
 Movement move = Movement(rightSpeedPin, rightDirectionA, rightDirectionB, leftSpeedPin, leftDirectionA, leftDirectionB);
 Odometry odom = Odometry(rightEncoderA, rightEncoderB, leftEncoderA, leftEncoderB);
-Servo fingers;
-Servo wrist;
 NewPing leftUS(leftSignal, leftSignal, 330);
 NewPing centerUS(centerSignal, centerSignal, 330);
 NewPing rightUS(rightSignal, rightSignal, 330);
@@ -86,12 +80,8 @@ void setup()
   if (imuStatus()) {
     imuInit();
   }
-
-  fingers.attach(fingersPin,fingerMin,fingerMax);
-  fingers.writeMicroseconds(fingerMin);
-  wrist.attach(wristPin,wristMin,wristMax);
-  wrist.writeMicroseconds(wristMin);
-
+  pinMode(pumpPin0, OUTPUT);
+  pinMode(pumpPin1, OUTPUT);
   rxBuffer = "";
 }
 
@@ -149,24 +139,6 @@ void parse() {
     static unsigned long rightUSValue = 300;
     static unsigned long centerUSValue = 300;
 
-    Serial.print("GRF,");
-    Serial.print(String(fingers.attached()) + ",");
-    if (fingers.attached()) { // if fails, maybe print nothing?
-      Serial.println(String(DEG2RAD(fingers.read())));
-    }
-    else {
-      Serial.println();
-    }
-
-    Serial.print("GRW,");
-    Serial.print(String(wrist.attached()) + ",");
-    if (wrist.attached()) {
-      Serial.println(String(DEG2RAD(wrist.read())));
-    }
-    else {
-      Serial.println();
-    }
-
     if (imuStatus()) {
       imuInit();
       Serial.println(updateIMU());
@@ -194,16 +166,22 @@ void parse() {
   }
 
   else if (rxBuffer == "f") {
-    float radianAngle = Serial.parseFloat();
-    int angle = RAD2DEG(radianAngle); // Convert float radians to int degrees
-    angle = fingerMin + (fingerMax/370) * angle;
-    fingers.writeMicroseconds(angle);
+    bool pump_forward = Serial.parseInt();
+    if (pump_forward){
+      digitalWrite(pumpPin0, HIGH);
+      digitalWrite(pumpPin1, LOW);
+    } else{
+      digitalWrite(pumpPin1, LOW);
+    }
   }
-  else if (rxBuffer == "w") {
-    float radianAngle = Serial.parseFloat();
-    int angle = RAD2DEG(radianAngle); // Convert float radians to int degrees
-    angle = wristMin + (wristMax/370) * angle;
-    wrist.writeMicroseconds(angle);
+  else if (rxBuffer == "b") {
+    bool pump_backward = Serial.parseInt();
+    if (pump_backward) {
+      digitalWrite(pumpPin0, HIGH);
+      digitalWrite(pumpPin1, LOW);
+    } else{
+      digitalWrite(pumpPin0, LOW);
+    }
   }
 }
 
