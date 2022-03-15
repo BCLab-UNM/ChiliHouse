@@ -168,8 +168,8 @@ void parse() {
   else if (rxBuffer == "f") {
     bool pump_forward = Serial.parseInt();
     if (pump_forward){
-      digitalWrite(pumpPin0, HIGH);
-      digitalWrite(pumpPin1, LOW);
+      digitalWrite(pumpPin1, HIGH);
+      digitalWrite(pumpPin0, LOW);
     } else{
       digitalWrite(pumpPin1, LOW);
     }
