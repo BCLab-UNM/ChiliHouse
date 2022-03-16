@@ -9,7 +9,7 @@
 #include <dynamic_reconfigure/client.h>
 
 //ROS messages
-#include <std_msgs/Float32.h>
+#include <std_msgs/Bool.h>
 #include <std_msgs/String.h>
 #include <geometry_msgs/Quaternion.h>
 #include <geometry_msgs/QuaternionStamped.h>
@@ -33,16 +33,14 @@ using namespace std;
 
 //aBridge functions
 void driveCommandHandler(const geometry_msgs::Twist::ConstPtr& message);
-void fingerAngleHandler(const std_msgs::Float32::ConstPtr& angle);
-void wristAngleHandler(const std_msgs::Float32::ConstPtr& angle);
+void forwardPumpHandler(const std_msgs::Bool::ConstPtr& on);
+void backwardPumpHandler(const std_msgs::Bool::ConstPtr& on);
 void serialActivityTimer(const ros::TimerEvent& e);
 void publishRosTopics();
 void parseData(string data);
 void initialconfig();
 
 //Globals
-geometry_msgs::QuaternionStamped fingerAngle;
-geometry_msgs::QuaternionStamped wristAngle;
 swarmie_msgs::SwarmieIMU imuRaw;
 nav_msgs::Odometry odom;
 double odomTheta = 0;
@@ -83,8 +81,6 @@ PID left_pid(0, 0, 0, 0, 120, -120, 0, -1);
 PID right_pid(0, 0, 0, 0, 120, -120, 0, -1);
 
 //Publishers
-ros::Publisher fingerAnglePublish;
-ros::Publisher wristAnglePublish;
 ros::Publisher imuRawPublish;
 ros::Publisher odomPublish;
 ros::Publisher sonarLeftPublish;
@@ -97,9 +93,9 @@ ros::Publisher debugPIDPublisher;
 bridge::PidState pid_state;
 
 //Subscribers
+ros::Subscriber pumpForwardSubscriber;
+ros::Subscriber pumpBackwardsSubscriber;
 ros::Subscriber driveControlSubscriber;
-ros::Subscriber fingerAngleSubscriber;
-ros::Subscriber wristAngleSubscriber;
 ros::Subscriber modeSubscriber;
 
 //Timers
@@ -128,8 +124,6 @@ int main(int argc, char **argv) {
     
     ros::NodeHandle aNH;
     
-    fingerAnglePublish = aNH.advertise<geometry_msgs::QuaternionStamped>("fingerAngle/prev_cmd", 10);
-    wristAnglePublish = aNH.advertise<geometry_msgs::QuaternionStamped>("wristAngle/prev_cmd", 10);
     imuRawPublish = aNH.advertise<swarmie_msgs::SwarmieIMU>("imu/raw", 10);
     odomPublish = aNH.advertise<nav_msgs::Odometry>("odom", 10);
     sonarLeftPublish = aNH.advertise<sensor_msgs::Range>("sonarLeft", 10);
@@ -140,8 +134,8 @@ int main(int argc, char **argv) {
     heartbeatPublisher = aNH.advertise<std_msgs::String>("bridge/heartbeat", 1, true);
 
     driveControlSubscriber = aNH.subscribe("driveControl", 10, driveCommandHandler);
-    fingerAngleSubscriber = aNH.subscribe("fingerAngle/cmd", 1, fingerAngleHandler);
-    wristAngleSubscriber = aNH.subscribe("wristAngle/cmd", 1, wristAngleHandler);
+    pumpForwardSubscriber = aNH.subscribe("pump/forward", 10, forwardPumpHandler);
+    pumpBackwardsSubscriber = aNH.subscribe("pump/backward", 10, backwardPumpHandler);
     modeSubscriber = aNH.subscribe("mode", 1, modeHandler);
 
     publishTimer = aNH.createTimer(ros::Duration(deltaTime), serialActivityTimer);
@@ -191,44 +185,27 @@ void driveCommandHandler(const geometry_msgs::Twist::ConstPtr& message) {
   speedCommand.angular.y = message->angular.y;
 }
 
-// The finger and wrist handlers receive gripper angle commands in floating point
-// radians, write them to a string and send that to the arduino
-// for processing.
-void fingerAngleHandler(const std_msgs::Float32::ConstPtr& angle) {
-
+// The PumpHandlers receive commands as an int(bool)
+// writes them to a string and send that to the arduino for processing.
+void forwardPumpHandler(const std_msgs::Bool::ConstPtr& on) {
   // To throttle the message rate so we don't lose connection to the arduino
   usleep(min_usb_send_delay);
-  
   char cmd[16]={'\0'};
-
-  // Avoid dealing with negative exponents which confuse the conversion to string by checking if the angle is small
-  if (angle->data < 0.01) {
-    // 'f' indicates this is a finger command to the arduino
-    sprintf(cmd, "f,0\n");
-  } else {
-    sprintf(cmd, "f,%.4g\n", angle->data);
-  }
+  // 'f' indicates this is a pump forward command to the arduino
+  sprintf(cmd, "f,%d\n", (int)on->data);
   usb.sendData(cmd);
   memset(&cmd, '\0', sizeof (cmd));
-}
+} //end forwardPumpHandler
 
-void wristAngleHandler(const std_msgs::Float32::ConstPtr& angle) {
+void backwardPumpHandler(const std_msgs::Bool::ConstPtr& on) {
   // To throttle the message rate so we don't lose connection to the arduino
   usleep(min_usb_send_delay);
-  
-    char cmd[16]={'\0'};
-
-    // Avoid dealing with negative exponents which confuse the conversion to string by checking if the angle is small
-  if (angle->data < 0.01) {
-    // 'w' indicates this is a wrist command to the arduino
-    sprintf(cmd, "w,0\n");
-  } else {
-    sprintf(cmd, "w,%.4g\n", angle->data);
-  }
+  char cmd[16]={'\0'};
+  // 'f' indicates this is a pump forward command to the arduino
+  sprintf(cmd, "b,%d\n", (int)on->data);
   usb.sendData(cmd);
   memset(&cmd, '\0', sizeof (cmd));
-}
-
+} //end forwardPumpHandler
 
 double leftTicksToMeters(double leftTicks) {
 	return (leftWheelCircumference * leftTicks) / cpr;
@@ -324,8 +301,6 @@ void serialActivityTimer(const ros::TimerEvent& e) {
 
 void publishRosTopics() {
 	/*
-    fingerAnglePublish.publish(fingerAngle);
-    wristAnglePublish.publish(wristAngle);
     imuRawPublish.publish(imuRaw);
     odomPublish.publish(odom);
     sonarLeftPublish.publish(sonarLeft);
@@ -350,15 +325,7 @@ void parseData(string str) {
 
 		if (dataSet.size() >= 3 && dataSet.at(1) == "1") {
 
-			if (dataSet.at(0) == "GRF") {
-				fingerAngle.header.stamp = ros::Time::now();
-				fingerAngle.quaternion = tf::createQuaternionMsgFromRollPitchYaw(atof(dataSet.at(2).c_str()), 0.0, 0.0);
-            }
-			else if (dataSet.at(0) == "GRW") {
-				wristAngle.header.stamp = ros::Time::now();
-				wristAngle.quaternion = tf::createQuaternionMsgFromRollPitchYaw(atof(dataSet.at(2).c_str()), 0.0, 0.0);
-			}
-			else if (dataSet.at(0) == "IMU") {
+			if (dataSet.at(0) == "IMU") {
 				imuRaw.header.stamp = ros::Time::now();
 				imuRaw.accelerometer.x = atof(dataSet.at(2).c_str());
 				imuRaw.accelerometer.y  = atof(dataSet.at(3).c_str());
