@@ -16,12 +16,13 @@ from mobility.srv import Core
 from mapping.srv import GetNavPlan, GetNavPlanRequest
 from mobility.msg import MoveResult, MoveRequest
 from swarmie_msgs.msg import Obstacle 
+from moisture_sensors.msg import moisture_msg
 
 from std_srvs.srv import Empty 
 from std_msgs.msg import UInt8, String, Float32, Bool
 from nav_msgs.msg import Odometry
 from control_msgs.srv import QueryCalibrationState, QueryCalibrationStateRequest
-from geometry_msgs.msg import Point, PointStamped, PoseStamped, Twist, Pose2D, Pose
+from geometry_msgs.msg import Point, PointStamped, PoseStamped, Twist, Pose2D, Pose, Quaternion
 from apriltags2to1.msg import AprilTagDetection, AprilTagDetectionArray
 
 import threading 
@@ -34,7 +35,7 @@ from mobility import sync
 #@TODO clean up imports
 import random
 from std_msgs.msg import Float64MultiArray
-from gazebo_msgs.srv import GetModelState, DeleteModel, SpawnModel
+from gazebo_msgs.srv import GetModelState, SpawnModel, GetModelProperties, GetWorldProperties, DeleteLight
 import rospkg
 
 class DriveException(Exception):
@@ -166,7 +167,9 @@ class Swarmie(object):
 
         self.xform = None
         self.plants=list()
-        self.planner_publisher = None
+        self.spawn_model = None
+        self.delete_light = None
+        self.red_light = None
 
 
     def start(self, **kwargs):
@@ -245,8 +248,8 @@ class Swarmie(object):
         self._start_gyro_scale_calibration = rospy.ServiceProxy('start_gyro_scale_calibration', Empty)
         self._store_imu_calibration = rospy.ServiceProxy('store_imu_calibration', Empty)
         self.model_state = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
-        self.delete_model = rospy.ServiceProxy('/gazebo/delete_model', DeleteModel)
         self.spawn_model = rospy.ServiceProxy('/gazebo/spawn_sdf_model', SpawnModel)
+        self.delete_light = rospy.ServiceProxy('/gazebo/delete_light', DeleteLight)
 
         # Transform listener. Use this to transform between coordinate spaces.
         # Transform messages must predate any sensor messages so initialize this first.
@@ -260,7 +263,7 @@ class Swarmie(object):
         rospy.Subscriber('home_point', PointStamped, self._home_point)
         rospy.Subscriber('home_point/approx', PointStamped, self._home_point,
                          callback_args=True)
-        # rospy.Subscriber('/plants', Plant, self._plant)                                                   # @TODO: create msg and comment in
+        rospy.Subscriber('/moisture', moisture_msg, self._plant)
         # Wait for Odometry messages to come in.
         # Don't wait for messages on /obstacle because it's published infrequently
         try:
@@ -278,11 +281,9 @@ class Swarmie(object):
             rospy.logwarn(self.rover_name +
                           ': timed out waiting for /targets data.')
                           
-        # read some model files
-        with open (rospkg.RosPack().get_path('swarmie')+'/../../simulation/models/square_pot_thirst/model.sdf', 'r') as sdf_file:
-                self.thirst_model = sdf_file.read().replace('\n', '')
-        with open (rospkg.RosPack().get_path('swarmie')+'/../../simulation/models/square_pot/model.sdf', 'r') as sdf_file:
-            self.pot_model = sdf_file.read().replace('\n', '')
+        # read the red_light model files
+        with open (rospkg.RosPack().get_path('swarmie')+'/../../simulation/models/red_light/model.sdf', 'r') as sdf_file:
+            self.red_light = sdf_file.read().replace('\n', '')
 
         print ('Welcome', self.rover_name, 'to the world of the future.')
 
@@ -324,15 +325,23 @@ class Swarmie(object):
     
     @sync(swarmie_lock)
     def _plant(self, msg):
+        if not self.plants:
+            rospy.loginfo("Callback called before plants_init, so calling")
+            self.plants_init()
+        if msg.id >= len(self.plants):
+            rospy.logwarn_throttle(5, "_plant: could not find plant_"+str(msg.id)+"in plants")
+            return
         self.plants[msg.id]['temp'] = msg.temp
         self.plants[msg.id]['pot_imp'] = msg.pot_imp
         self.plants[msg.id]['plant_imp'] = msg.plant_imp
-        if msg.pot_imp > 40: # @TODO get actul values possibly store as a ros param
-            pose = self.model_state("plant_"+str(msg.id), "world").pose
-            self.delete_model("plant_"+str(msg.id))
-            self.spawn_model("plant_"+str(msg.id), self.thirst_model, "", pose,"world")
-            #else: self.spawn_model("square_pot_"+str(msg.id), self.pot_model, "", pose,"world")
-        
+        if msg.plant_imp > moisture_msg.DRY_PLANT or msg.pot_imp > moisture_msg.DRY_SOIL: 
+            rospy.loginfo("Wilting Chili Detected!!! plant #" + str(msg.id))
+            if not self.red_light:
+                rospy.loginfo("red_light not defined waiting")
+                rospy.sleep(3)
+            if self.plants[msg.id]['light'] == False:
+                self.spawn_model("plant_light_"+str(msg.id), self.red_light.replace("2 2", str(self.plants[msg.id]['point'].x)+" "+str(self.plants[msg.id]['point'].y)) ,"", Pose(), "world")
+                self.plants[msg.id]['light'] = True
     
     def __drive(self, request, **kwargs):
         request.obstacles = ~0
@@ -357,8 +366,11 @@ class Swarmie(object):
 
         if 'angular' in kwargs:
             request.angular = kwargs['angular']
-            
-        value = self.control([request]).result.result
+        value = 0
+        try:
+            value = self.control([request]).result.result
+        except rospy.ServiceException:
+            rospy.loginfo("__drive: rospy.ServiceException")
 
         # Always raise AbortExceptions when the service response is USER_ABORT,
         # even if throw=False was passed as a keyword argument.
@@ -861,16 +873,8 @@ class Swarmie(object):
         rospy.loginfo("Populating plant coordinates and offsets")
         for plant_num in range(0,143):
             plant_point=self.model_state("plant_"+str(plant_num), "world").pose.position
-            self.plants.append({'point':plant_point, 'temp':0, 'pot_imp':0, 'plant_imp':0})
+            self.plants.append({'point':plant_point, 'temp':0, 'pot_imp':0, 'plant_imp':0,'light':False})
         rospy.loginfo("Done populating plant coordinates and offsets")
-        
-    def drive_to_plant(self, plant_num, **kwargs):
-        self.planner_publisher.publish(PoseStamped(pose=Pose(position=self.plants[plant_num]['point'])))
-        while not swarmie.get_odom_location().at_goal(self.plants[plant_num]['point'], 1.1) and not rospy.is_shutdown():
-            rospy.sleep(1)  # @TODO add a timeout incase the planer fails
-        rospy.sleep(1)
-        # @TODO: might use the offset and ignore sonar
-        self.drive_to(self.plants[plant_num]['point']) #get a bit closer 
         
     def drive_to(self, place, claw_offset=0, **kwargs):
         '''Drive directly to a particular point in space. The point must be in 
@@ -893,12 +897,11 @@ class Swarmie(object):
                                                  math.atan2(place.y - loc.y,
                                                             place.x - loc.x))
         effective_dist = dist - claw_offset
-
+        self.turn(angle, **kwargs)
         if effective_dist < 0:
             # The driver API skips the turn state if the request distance is
             # negative. This ensures the rover will perform the turn before
             # backing up slightly in this case.
-            self.turn(angle, **kwargs)
             return self.drive(effective_dist, **kwargs)
 
         req = MoveRequest(

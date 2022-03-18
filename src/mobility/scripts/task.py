@@ -149,7 +149,7 @@ class Task :
                     self.print_state('water_plants succeeded. Do pickup.')
                     self.current_state = Task.STATE_PICKUP
                 else:
-                    self.print_state('water_plants failed. Going back home.')
+                    self.print_state('water_plants: Out of water! Going back home.')
                     self.current_state = Task.STATE_GOHOME
 
             elif self.current_state == Task.STATE_PICKUP:
@@ -222,6 +222,7 @@ class Task :
 
 def main() :
     swarmie.start(node_name='task')
+    swarmie.plants_init()
     taskman = Task() 
     while not rospy.is_shutdown():
         taskman.run_next() 
