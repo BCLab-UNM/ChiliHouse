@@ -23,17 +23,13 @@ from mobility.swarmie import (swarmie, TagException, HomeException,
 '''Pickup node.'''
 
 
-def setup_approach(save_loc=False):
-    """Drive a little closer to the nearest block if it's far enough away."""
+def setup_approach():
+    """Drive a little closer to the nearest tag if it's far enough away."""
     global claw_offset_distance
     if swarmie.simulator_running():
         extra_offset = 0.20
     else:
         extra_offset = 0.15
-
-    swarmie.fingers_open()
-    swarmie.set_wrist_angle(1.15)
-    rospy.sleep(1)
 
     block = swarmie.get_nearest_block_location(targets_buffer_age=5.0)
 
@@ -50,11 +46,6 @@ def setup_approach(save_loc=False):
                 timeout=20,
                 **swarmie.speed_slow
             )
-
-    if save_loc:
-        swarmie.print_infoLog('Setting resource pile location.')
-        swarmie.add_resource_pile_location()
-
 
 def approach(save_loc=False):
     global claw_offset_distance
@@ -73,37 +64,14 @@ def approach(save_loc=False):
             timeout=20,
             **swarmie.speed_slow
         )
-        # Grab - minimal pickup with sim_check.
 
-        if swarmie.simulator_running():
-            finger_close_angle = 0
-        else:
-            finger_close_angle = 0.2
-
-        swarmie.set_finger_angle(finger_close_angle) #close
-        rospy.sleep(1)
-        swarmie.wrist_up()
-        rospy.sleep(.5)
-        # did we succesuflly grab a block?
-        if swarmie.has_block():
-            swarmie.wrist_middle()
-            swarmie.drive(-0.3,
-                          ignore=Obstacle.VISION_SAFE | Obstacle.IS_SONAR,
-                          timeout=20)
-            return True
-        else:
-            swarmie.set_wrist_angle(0.55)
-            rospy.sleep(1)
-            swarmie.fingers_open()
-            # Wait a moment for a block to fall out of claw
-            rospy.sleep(0.25)
+        swarmie.drive(-0.3,
+                      ignore=Obstacle.VISION_SAFE | Obstacle.IS_SONAR,
+                      timeout=20)
+        return True
     else:
-        print("No legal blocks detected.")
-        swarmie.wrist_up()
+        print("No plant detected.")
         sys.exit(1)
-
-    # otherwise reset claw and return Falase
-    swarmie.wrist_up()
     return False
 
 
@@ -159,5 +127,5 @@ def main(**kwargs):
     return 1
 
 if __name__ == '__main__' : 
-    swarmie.start(node_name='pickup')
+    swarmie.start(node_name='plant approach')
     sys.exit(main())
