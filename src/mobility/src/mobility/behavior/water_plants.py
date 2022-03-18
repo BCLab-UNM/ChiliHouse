@@ -95,8 +95,6 @@ def main(**kwargs):
         planner = Planner(use_rviz_nav_goal=True)
     if not swarmie.plants:
         swarmie.plants_init()
-    swarmie.fingers_open()
-    swarmie.wrist_middle()
     plant_walk(num_moves=10)
     print ("I'm homesick!")
     water_plants_exit(1)
