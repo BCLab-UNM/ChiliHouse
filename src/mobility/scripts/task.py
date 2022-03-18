@@ -43,7 +43,7 @@ class Task :
     PROG_INIT           = 'init.py'
     PROG_CAL_IMU        = 'calibrate_imu.py'
     PROG_QUEUE          = 'queue.py'
-    PROG_SEARCH         = 'water_plants.py'
+    PROG_WATER_PLANTS   = 'water_plants.py'
     PROG_PLANT_APPROACH = 'plant_approach.py'
     PROG_GOHOME         = 'gohome.py'
     PROG_REFILL         = 'refill.py'
@@ -181,11 +181,11 @@ class Task :
 
             elif self.current_state == Task.STATE_REFILL:
                 if self.launch(mobility.behavior.refill.main) == 0:
-                    self.print_state('Dropoff complete. Back to watering plants.')
+                    self.print_state('Refill complete. Back to watering plants.')
                     self.has_block = False
                     self.current_state = Task.STATE_WATER_PLANTS
                 else:
-                    self.print_state('Dropoff failed. Back to searching for home.')
+                    self.print_state('Refill failed. Back to searching for home.')
                     self.current_state = Task.STATE_GOHOME
 
             elif self.current_state == Task.STATE_ESCAPE_HOME:
