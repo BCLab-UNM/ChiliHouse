@@ -30,24 +30,24 @@ from mobility.swarmie import swarmie, AbortException, InsideHomeException
 
 class Task : 
     
-    STATE_IDLE         = 0
-    STATE_CAL_IMU      = 1
-    STATE_QUEUE        = 2
-    STATE_INIT         = 3
-    STATE_WATER_PLANTS = 4
-    STATE_PICKUP       = 5
-    STATE_GOHOME       = 6
-    STATE_DROPOFF      = 7
-    STATE_ESCAPE_HOME  = 8
+    STATE_IDLE           = 0
+    STATE_CAL_IMU        = 1
+    STATE_QUEUE          = 2
+    STATE_INIT           = 3
+    STATE_WATER_PLANTS   = 4
+    STATE_PLANT_APPROACH = 5
+    STATE_GOHOME         = 6
+    STATE_DROPOFF        = 7
+    STATE_ESCAPE_HOME    = 8
 
-    PROG_INIT        = 'init.py'
-    PROG_CAL_IMU     = 'calibrate_imu.py'
-    PROG_QUEUE       = 'queue.py'
-    PROG_SEARCH      = 'water_plants.py'
-    PROG_PICKUP      = 'pickup.py'
-    PROG_GOHOME      = 'gohome.py'
-    PROG_DROPOFF     = 'dropoff.py'
-    PROG_ESCAPE_HOME = 'escape_home.py'
+    PROG_INIT           = 'init.py'
+    PROG_CAL_IMU        = 'calibrate_imu.py'
+    PROG_QUEUE          = 'queue.py'
+    PROG_SEARCH         = 'water_plants.py'
+    PROG_PLANT_APPROACH = 'plant_approach.py'
+    PROG_GOHOME         = 'gohome.py'
+    PROG_DROPOFF        = 'dropoff.py'
+    PROG_ESCAPE_HOME    = 'escape_home.py'
 
     def __init__(self):
         self.state_publisher = rospy.Publisher('/infoLog', String, queue_size=2, latch=False)
@@ -101,8 +101,8 @@ class Task :
             return "init"
         elif self.current_state == Task.STATE_WATER_PLANTS :
             return "water_plants"
-        elif self.current_state == Task.STATE_PICKUP : 
-            return "pickup"
+        elif self.current_state == Task.STATE_PLANT_APPROACH : 
+            return "plant_approach"
         elif self.current_state == Task.STATE_GOHOME : 
             return "gohome"
         elif self.current_state == Task.STATE_DROPOFF : 
@@ -146,14 +146,14 @@ class Task :
 
             elif self.current_state == Task.STATE_WATER_PLANTS:
                 if self.launch(mobility.behavior.water_plants.main) == 0:
-                    self.print_state('water_plants succeeded. Do pickup.')
-                    self.current_state = Task.STATE_PICKUP
+                    self.print_state('water_plants succeeded. Do plant_approach.')
+                    self.current_state = Task.STATE_PLANT_APPROACH
                 else:
                     self.print_state('water_plants: Out of water! Going back home.')
                     self.current_state = Task.STATE_GOHOME
 
-            elif self.current_state == Task.STATE_PICKUP:
-                if self.launch(mobility.behavior.pickup.main) == 0:
+            elif self.current_state == Task.STATE_PLANT_APPROACH:
+                if self.launch(mobility.behavior.plant_approach.main) == 0:
                     self.print_state('Pickup success. Going back home.')
                     self.has_block = True
                     self.current_state = Task.STATE_GOHOME
@@ -171,8 +171,8 @@ class Task :
                         self.print_state('Recalibrated home. Back to watering plants.')
                         self.current_state = Task.STATE_WATER_PLANTS
                 elif gohome_status == 1:
-                    self.print_state('Go Home interrupted, I found a tag. Do pickup.')
-                    self.current_state = Task.STATE_PICKUP
+                    self.print_state('Go Home interrupted, I found a tag. Do plant_approach.')
+                    self.current_state = Task.STATE_PLANT_APPROACH
 
                 else:
                     # FIXME: What happens when we don't find home?
