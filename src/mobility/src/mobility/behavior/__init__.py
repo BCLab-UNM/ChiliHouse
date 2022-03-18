@@ -8,3 +8,4 @@ from . import gohome
 from . import dropoff
 from . import escape_home
 from . import find_home_corner
+from . import water_plants

@@ -19,7 +19,7 @@ from swarmie_msgs.msg import Obstacle
 from moisture_sensors.msg import moisture_msg
 
 from std_srvs.srv import Empty 
-from std_msgs.msg import UInt8, String, Float32
+from std_msgs.msg import UInt8, String, Float32, Bool
 from nav_msgs.msg import Odometry
 from control_msgs.srv import QueryCalibrationState, QueryCalibrationStateRequest
 from geometry_msgs.msg import Point, PointStamped, PoseStamped, Twist, Pose2D, Pose, Quaternion
@@ -143,8 +143,8 @@ class Swarmie(object):
         self.status_publisher = None
         self.info_publisher = None
         self.mode_publisher = None
-        self.finger_publisher = None
-        self.wrist_publisher = None
+        self.pump_forward_publisher = None
+        self.pump_backward_publisher = None
 
         self.block_size = None
 
@@ -229,8 +229,8 @@ class Swarmie(object):
         self.status_publisher = rospy.Publisher('status', String, queue_size=10, latch=True)
         self.info_publisher = rospy.Publisher('/infoLog', String, queue_size=10, latch=True)
         self.mode_publisher = rospy.Publisher('mode', UInt8, queue_size=1, latch=True)
-        self.finger_publisher = rospy.Publisher('fingerAngle/cmd', Float32, queue_size=1, latch=True)
-        self.wrist_publisher = rospy.Publisher('wristAngle/cmd', Float32, queue_size=1, latch=True)
+        self.pump_forward_publisher = rospy.Publisher('pump/forward', Bool, queue_size=1, latch=True)
+        self.pump_backward_publisher = rospy.Publisher('pump/backward', Bool, queue_size=1, latch=True)
 
         # Wait for necessary services to be online. 
         # Services are APIs calls to other neodes. 
@@ -593,43 +593,13 @@ class Swarmie(object):
 
         return self.__drive(req, **kwargs)
                 
-    def set_wrist_angle(self, angle):
-        '''Set the wrist angle to the specified angle
-        
-        Args:
-        
-        * `angle` (`float`) Wrist angle in radians. 
-        '''
-        self.wrist_publisher.publish(Float32(angle))
+    def pump_forward(self, enable):
+        '''Start/Stop pump running forward'''
+        self.pump_forward_publisher.publish(Bool(enable))
 
-    def set_finger_angle(self, angle):
-        '''Set the finger angle to the spedified angle
-        
-        Args:
-        
-        * `angle` (`float`) Finger angle in radians.
-        '''
-        self.finger_publisher.publish(Float32(angle))
-        
-    def wrist_down(self):
-        '''Lower the wrist to put it in the pickup position'''
-        self.wrist_publisher.publish(Float32(1.25))
-    
-    def wrist_up(self):
-        '''Raise the wrist to the top'''
-        self.wrist_publisher.publish(Float32(0.0))
-    
-    def wrist_middle(self):
-        '''Put the wrist in the middle of its travel so that the rover can drive with a block'''
-        self.wrist_publisher.publish(Float32(0.75))
-
-    def fingers_open(self):
-        '''Open the fingers'''
-        self.finger_publisher.publish(Float32(math.pi/2))
-    
-    def fingers_close(self):
-        '''Close the fingers'''
-        self.finger_publisher.publish(Float32(0.0))
+    def pump_backward(self, enable):
+        '''Start/Stop pump running backward'''
+        self.pump_backward_publisher.publish(Bool(enable))
     
     def print_state_machine(self, msg):
         '''Print a message to the /rover/state_machine topic.'''
@@ -648,47 +618,6 @@ class Swarmie(object):
         s = String()
         s.data = msg 
         self.status_publisher.publish(s)
-        
-    def has_block(self):
-        '''Try to determine if a block is in our grasp. 
-        
-        Uses the algorithm:
-
-        * Put wrist down to a middle position. Can help avoid any sun glare or \
-          shadows seen in wrist up position (This skipped in the simulation \
-          because there is no sun glare).
-        * Check if we can see a block that's close to the camera. If so, return `True`
-        * Raise the wrist all the way up.
-        * Check if the center sonar is blocked at a close distance. If so, return `True`
-        * Check if we can see a block that's very close. If so, return `True`
-        * Return `False`
-        '''
-        if self.simulator_running():
-            wrist_angles = (0.3, 0.0)
-            max_z_dist = 0.13 #0.151+ is the top of the cube on the ground in the sim
-        else:
-            wrist_angles = (0.55, 0.0)
-            max_z_dist = 0.18
-        
-        for angle in wrist_angles:
-            self.set_wrist_angle(angle)
-            rospy.sleep(1)
-            blocks = self.get_targets_buffer(age=1, id=0)
-            blocks = sorted(blocks, key=lambda x: abs(x.pose.pose.position.z))
-            if len(blocks) > 0 :
-                nearest = blocks[0]
-                z_dist = nearest.pose.pose.position.z
-                if abs(z_dist) < max_z_dist:
-                    return True
-        
-        # Third test: is something blocking the center sonar at a short range.
-        obstacles = self.get_obstacle_condition()        
-        if obstacles & Obstacle.SONAR_BLOCK :
-            return True
-        # The block does not affect the sonar in the simulator.
-        
-        return False 
-        
         
     def simulator_running(self): 
         '''Helper Returns True if there is a /gazebo/link_states topic otherwise False'''
