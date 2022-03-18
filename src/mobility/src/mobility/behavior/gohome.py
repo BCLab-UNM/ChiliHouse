@@ -144,8 +144,6 @@ def main(**kwargs):
 
     planner = Planner()
 
-    swarmie.fingers_close()  # make sure we keep a firm grip
-    swarmie.wrist_middle()  # get block mostly out of camera view
     home = get_best_home_location()
 
     drive_result = drive_home(has_block, home)
