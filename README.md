@@ -1,7 +1,7 @@
 # NASA-MINDS: Project Chili House ROS repo
 
 ## Overview
-This repository wa baised on Cabrillo College’s 2018 & 2019 submissions to the [NASA Swarmathon](http://www.nasaswarmathon.com), a national swarm robotics competition.
+This repository was baised on Cabrillo College’s 2018 & 2019 submissions to the [NASA Swarmathon](http://www.nasaswarmathon.com), a national swarm robotics competition.
 
 The base code provided to participating schools can be found here [SwarmBaseCode-ROS](https://github.com/BCLab-UNM/SwarmBaseCode-ROS).
 
@@ -50,8 +50,8 @@ Be sure you are using the latest drivers for your video card using the "addition
 2. Install dependencies, clone and build.
     ```bash
     sudo apt install python-rosinstall python-catkin-tools ros-kinetic-robot-localization ros-kinetic-hector-gazebo-plugins ros-kinetic-joystick-drivers ros-kinetic-grid-map ros-kinetic-rosserial-python ros-kinetic-rosserial-arduino ros-kinetic-usb-cam ros-kinetic-multimaster-fkie libusb-dev ipython
-    git clone --recursive git@github.com:BCLab-UNM/SwarmieOS.git
-    cd SwarmieOS
+    git clone --recursive git@github.com:BCLab-UNM/ChiliHouse.git
+    cd ChiliHouse
     catkin build
     source ./devel/setup.bash
     ```
@@ -150,8 +150,8 @@ sudo apt install ipython
 
 2. Clone the repository, initialize submodules, and build:
     ```
-    git clone --recursive git@github.com:BCLab-UNM/SwarmieOS.git
-    cd SwarmieOS
+    git clone --recursive git@github.com:BCLab-UNM/ChiliHouse.git
+    cd ChiliHouse
     catkin build
     ```
     

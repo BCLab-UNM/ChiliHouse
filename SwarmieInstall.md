@@ -101,13 +101,13 @@ sudo apt-get install python-catkin-tools ros-kinetic-robot-localization ros-kine
 Talk to Mike about how to download the SSH identity onto the new rover. 
 
 # Setup the Swarmathon Repo 
-When you have the secrets installed you can connect to the Cabrillo private repo. 
+When you have the secrets installed you can connect to the repo. 
 
 Clone this GitHub repository to your home directory (~), renaming the repo so ROS and catkin can properly identify it:
 
 ```
 cd ~
-git clone git@github.com:BCLab-UNM/Swarmathon-Cabrillo.git rover_workspace
+git clone git@github.com:BCLab-UNM/ChiliHouse.git rover_workspace
 ```
 
 Change your current working directory to the root directory of the downloaded repo:
@@ -155,5 +155,5 @@ sudo ln -s arduino-1.8.3/ arduino
 ```
 Verify that you can upload code to the Arduino:
 ```
-~/Swarmathon-Cabrillo/misc/build_arduino.sh 
+~/ChiliHouse/misc/build_arduino.sh 
 ```
