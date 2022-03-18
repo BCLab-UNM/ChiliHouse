@@ -37,7 +37,7 @@ class Task :
     STATE_WATER_PLANTS   = 4
     STATE_PLANT_APPROACH = 5
     STATE_GOHOME         = 6
-    STATE_DROPOFF        = 7
+    STATE_REFILL         = 7
     STATE_ESCAPE_HOME    = 8
 
     PROG_INIT           = 'init.py'
@@ -46,7 +46,7 @@ class Task :
     PROG_SEARCH         = 'water_plants.py'
     PROG_PLANT_APPROACH = 'plant_approach.py'
     PROG_GOHOME         = 'gohome.py'
-    PROG_DROPOFF        = 'dropoff.py'
+    PROG_REFILL         = 'refill.py'
     PROG_ESCAPE_HOME    = 'escape_home.py'
 
     def __init__(self):
@@ -105,8 +105,8 @@ class Task :
             return "plant_approach"
         elif self.current_state == Task.STATE_GOHOME : 
             return "gohome"
-        elif self.current_state == Task.STATE_DROPOFF : 
-            return "dropoff"
+        elif self.current_state == Task.STATE_REFILL : 
+            return "refill"
         elif self.current_state == Task.STATE_ESCAPE_HOME :
             return "escape_home"
         return "unknown"
@@ -166,7 +166,7 @@ class Task :
                 if gohome_status == 0:
                     if self.has_block:
                         self.print_state('Home found and I have a block. Do drop off.')
-                        self.current_state = Task.STATE_DROPOFF
+                        self.current_state = Task.STATE_REFILL
                     else:
                         self.print_state('Recalibrated home. Back to watering plants.')
                         self.current_state = Task.STATE_WATER_PLANTS
@@ -179,8 +179,8 @@ class Task :
                     self.print_state('Home NOT found. Try again.')
                     self.current_state = Task.STATE_GOHOME
 
-            elif self.current_state == Task.STATE_DROPOFF:
-                if self.launch(mobility.behavior.dropoff.main) == 0:
+            elif self.current_state == Task.STATE_REFILL:
+                if self.launch(mobility.behavior.refill.main) == 0:
                     self.print_state('Dropoff complete. Back to watering plants.')
                     self.has_block = False
                     self.current_state = Task.STATE_WATER_PLANTS
