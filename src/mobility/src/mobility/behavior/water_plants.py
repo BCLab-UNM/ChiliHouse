@@ -93,7 +93,7 @@ def main(**kwargs):
     except NameError:
         from mobility.planner import Planner
         planner = Planner(use_rviz_nav_goal=True)
-    if not swarmie.plants:
+    if swarmie.simulator_running() and not swarmie.plants:
         swarmie.plants_init()
     plant_walk(num_moves=10)
     print ("I'm homesick!")
