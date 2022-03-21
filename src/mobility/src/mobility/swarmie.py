@@ -247,9 +247,10 @@ class Swarmie(object):
         self._start_gyro_bias_calibration = rospy.ServiceProxy('start_gyro_bias_calibration', Empty)
         self._start_gyro_scale_calibration = rospy.ServiceProxy('start_gyro_scale_calibration', Empty)
         self._store_imu_calibration = rospy.ServiceProxy('store_imu_calibration', Empty)
-        self.model_state = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
-        self.spawn_model = rospy.ServiceProxy('/gazebo/spawn_sdf_model', SpawnModel)
-        self.delete_light = rospy.ServiceProxy('/gazebo/delete_light', DeleteLight)
+        if self.simulator_running():
+            self.model_state = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
+            self.spawn_model = rospy.ServiceProxy('/gazebo/spawn_sdf_model', SpawnModel)
+            self.delete_light = rospy.ServiceProxy('/gazebo/delete_light', DeleteLight)
 
         # Transform listener. Use this to transform between coordinate spaces.
         # Transform messages must predate any sensor messages so initialize this first.
@@ -340,7 +341,8 @@ class Swarmie(object):
                 rospy.loginfo("red_light not defined waiting")
                 rospy.sleep(3)
             if self.plants[msg.id]['light'] == False:
-                self.spawn_model("plant_light_"+str(msg.id), self.red_light.replace("2 2", str(self.plants[msg.id]['point'].x)+" "+str(self.plants[msg.id]['point'].y)) ,"", Pose(), "world")
+                if self.simulator_running():
+                    self.spawn_model("plant_light_"+str(msg.id), self.red_light.replace("2 2", str(self.plants[msg.id]['point'].x)+" "+str(self.plants[msg.id]['point'].y)) ,"", Pose(), "world")
                 self.plants[msg.id]['light'] = True
     
     def __drive(self, request, **kwargs):
@@ -871,6 +873,9 @@ class Swarmie(object):
     
     def plants_init(self):
         rospy.loginfo("Populating plant coordinates and offsets")
+        if not self.simulator_running():
+            rospy.logwarn("plants_init: was called when no sim was running")
+            return
         for plant_num in range(0,143):
             plant_point=self.model_state("plant_"+str(plant_num), "world").pose.position
             self.plants.append({'point':plant_point, 'temp':0, 'pot_imp':0, 'plant_imp':0,'light':False})
