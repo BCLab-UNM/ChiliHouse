@@ -54,7 +54,8 @@ if __name__ == '__main__' :
     rover = namespace.strip('/')
 
     swarmie.start(tf_rover_name=rover, node_name='rdb')
-    swarmie.plants_init()
+    if swarmie.simulator_running():
+        swarmie.plants_init()
     print ('Connected.')
     
     rospy.Subscriber('status', String, lambda msg : logHandler('/status:', msg))
