@@ -875,6 +875,8 @@ class Swarmie(object):
         rospy.loginfo("Populating plant coordinates and offsets")
         if not self.simulator_running():
             rospy.logwarn("plants_init: was called when no sim was running")
+            for plant_num in range(0,143):
+                self.plants.append({'point':Point(x=0, y=0), 'temp':0, 'pot_imp':0, 'plant_imp':0,'light':False})
             return
         for plant_num in range(0,143):
             plant_point=self.model_state("plant_"+str(plant_num), "world").pose.position
