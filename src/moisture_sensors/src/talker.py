@@ -115,3 +115,5 @@ if __name__ == '__main__':
   if simulator_running():
     ms.publish_pot_moisture()
     ms.initiate()
+  else:
+    rospy.spin()
