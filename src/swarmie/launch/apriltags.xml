@@ -40,6 +40,8 @@
         {id: 1, size: 0.038},
         {id: 154, size: 0.038},
         {id: 189, size: 0.038},
+        {id: 219, size: 0.038},
+        {id: 248, size: 0.038},
         {id: 256, size: 0.038}
       ]
     </rosparam>
