@@ -2,6 +2,7 @@
 
 import rospy
 import random
+import requests
 from std_msgs.msg import Int64
 from moisture_sensors.msg import moisture_msg
 
@@ -22,9 +23,10 @@ class MoistureSensor:
   moisture_arr = []
 
   if simulator_running():
-    pots = [{'z_value_plant': random.randint(30, 70),
+    pots = [{'id': num,
+             'z_value_plant': random.randint(30, 70),
              'z_value_soil': random.randint(30, 55),
-             'z_value_temp': random.randint(0, 10)}
+             'temperature': random.randint(0, 10)}
             for num in range(0, 142)]
   else:
     pots = list(dict())
@@ -48,12 +50,21 @@ class MoistureSensor:
   def getPots(self):
     return self.pots
 
+  def getPlantnTemp(self):
+    data = dict()
+    data['id'] = 0
+    data['z_value_plant'] = requests.get('https://aperiodic.unm.edu/nasa_minds/get_single_impedance.php').text.strip().split(',')[1]
+    data['temperature'] = requests.get('https://aperiodic.unm.edu/nasa_minds/get_single_temperature.php').text.strip().split(',')[1]
+    self.pots.append(data)
+  
   # sets the value of specific pot
-  def setPotsValue(self, potId, z_value_plant, z_value_soil, z_value_temp):
+  def setPotsValue(self, potId, z_value_plant, z_value_soil, temperature):
     print('Updating pot value...')
-    self.pots[potId] = {'z_value_plant': z_value_plant,
+    #TODO check the index == potId
+    self.pots[potId] = {'id': potId
+                        'z_value_plant': z_value_plant,
                         'z_value_soil': z_value_soil,
-                        'z_value_temp': z_value_temp}
+                        'temperature': temperature}
 
   # gets moisture level from moisture_arr and
   # decreases each moisture level by moisture_decay value
@@ -62,7 +73,7 @@ class MoistureSensor:
     # for x in range(len(self.pots)):
     #    self.moisture_arr[x] = self.moisture_arr[x] + self.moisture_decay_rate
     for i in range(len(self.pots)):
-      self.pots[i]['z_value_temp'] += self.moisture_decay_rate
+      self.pots[i]['temperature'] += self.moisture_decay_rate
       self.pots[i]['z_value_soil'] += self.moisture_decay_rate
       self.pots[i]['z_value_plant'] += self.moisture_decay_rate
 
@@ -73,14 +84,13 @@ class MoistureSensor:
     msg = moisture_msg()
     while not rospy.is_shutdown():
       ms.moisture_decay()
-      for i in range(len(self.pots)):
+      for pot in pots:
         print(self.pots[i])
-        msg.id = i
-        msg.temp = self.pots[i]['z_value_temp']
-        msg.pot_imp = self.pots[i]['z_value_soil']
-        msg.plant_imp = self.pots[i]['z_value_plant']
+        msg.id = pot['id']
+        msg.temp = pot['temperature']
+        msg.pot_imp = pot['z_value_soil']
+        msg.plant_imp = pot['z_value_plant']
         self.moisture_publisher.publish(msg)
-        i = i + 1
         rate.sleep()
       print('\n')
 
@@ -101,7 +111,7 @@ class MoistureSensor:
 
   def initiate(self):
     self.listener()
-    self.get_pot_moisture()
+    # self.get_pot_moisture()
     if simulator_running():
       self.publish_pot_moisture()
 
@@ -111,7 +121,8 @@ if __name__ == '__main__':
 
   # Create an instance of Moisture sensor
   ms = MoistureSensor()
-  ms.get_pot_moisture()
+  ms.getPlantnTemp()
+  # ms.get_pot_moisture()
   if simulator_running():
     ms.publish_pot_moisture()
     ms.initiate()
