@@ -1,14 +1,15 @@
 #include <Wire.h>
 #include "AD5933.h"
 
-#define START_FREQ  (80000)
-#define FREQ_INCR   (1000)
+#define START_FREQ  (5000)
+#define FREQ_INCR   (5000)
 #define NUM_INCR    (1)
 #define REF_RESIST  (22000)
 
 double gain[NUM_INCR+1];
 int phase[NUM_INCR+1];
 float sum = 0;
+AD5933 sensor;
 
 void setup(void)
 {
@@ -19,20 +20,22 @@ void setup(void)
   Serial.begin(9600);
   Serial.println("A0 and PmodIA Test Started!");
 
+  
   // Perform initial configuration. Fail if any one of these fail.
-  if (!(AD5933::reset() &&
-        AD5933::setInternalClock(true) &&
-        AD5933::setStartFrequency(START_FREQ) &&
-        AD5933::setIncrementFrequency(FREQ_INCR) &&
-        AD5933::setNumberIncrements(NUM_INCR) &&
-        AD5933::setPGAGain(PGA_GAIN_X1)))
+  if (!(sensor.reset() && 
+        sensor.setRange(4) && //sensor.CTRL_OUTPUT_RANGE_3 which is 400 mV 0b00000100 == 4
+        sensor.setInternalClock(true) &&
+        sensor.setStartFrequency(START_FREQ) &&
+        sensor.setIncrementFrequency(FREQ_INCR) &&
+        sensor.setNumberIncrements(NUM_INCR) &&
+        sensor.setPGAGain(PGA_GAIN_X1)))
         {
             Serial.println("FAILED in initialization!");
             while (true) ;
         }
   digitalWrite(LED_BUILTIN, HIGH);
   // Perform calibration sweep
-  if (AD5933::calibrate(gain, phase, REF_RESIST, NUM_INCR+1)){
+  if (sensor.calibrate(gain, phase, REF_RESIST, NUM_INCR+1)){
     Serial.println("Calibrated!");
     digitalWrite(LED_BUILTIN, LOW);
     delay(500);
@@ -59,24 +62,26 @@ void loop(void)
   Serial.print(1024.0/ (sum/100));
   Serial.print(":");
   
-  int real, imag, i = 0, cfreq = START_FREQ/1000;
+  int real, imag, i = 0;
 
     // Initialize the frequency sweep
-    if (!(AD5933::setPowerMode(POWER_STANDBY) &&          // place in standby
-          AD5933::setControlMode(CTRL_INIT_START_FREQ) && // init start freq
-          AD5933::setControlMode(CTRL_START_FREQ_SWEEP))) // begin frequency sweep
+    if (!(sensor.setPowerMode(POWER_STANDBY) &&          // place in standby
+          sensor.setControlMode(CTRL_INIT_START_FREQ) && // init start freq
+          sensor.setControlMode(CTRL_START_FREQ_SWEEP))) // begin frequency sweep
          {
              Serial.println("Could not initialize frequency sweep...");
          }
-    if (AD5933::readStatusRegister() && AD5933::getComplexData(&real, &imag)){
-      double magnitude = sqrt(pow(real, 2) + pow(imag, 2));
-        double impedance = 1/(magnitude*gain[i]);
-        Serial.println(impedance);
+    if (sensor.readStatusRegister() && sensor.getComplexData(&real, &imag)){
+      double magnitude = sqrt((real*real) + (imag*imag));
+        double impedance = 1.0/(magnitude*gain[i]);
+        Serial.print(impedance);
     }
-   
-    // Set AD5933 power mode to standby when finished
-    if (!AD5933::setPowerMode(POWER_STANDBY)){ Serial.println("Could not set to standby...");}
+    Serial.print(":");
+    if (sensor.readStatusRegister() && sensor.getComplexData(&real, &imag)){
+      double magnitude = sqrt((real*real) + (imag*imag));
+        double impedance = 1.0/(magnitude*gain[i+1]);
+        Serial.println(impedance*2);
+    }
   // Delay
   delay(60000);
 }
-
