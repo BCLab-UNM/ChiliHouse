@@ -69,5 +69,5 @@ if [ -f $projdir/devel/setup.bash ]; then
     source /opt/ros/kinetic/setup.bash
     source $projdir/devel/setup.bash
 fi
-
+export ROS_HOSTNAME=$HOSTNAME.local
 roslaunch $launchfile name:=$(hostname) simulation:=False swarmie_dev:=$swarmie_dev ublox_dev:=$ublox_dev
