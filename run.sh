@@ -21,6 +21,7 @@ function get_rover()
 	echo 'ROS_NAMESPACE=/<rovername> rosrun mobility <node> <arguments>'
 	echo ""
 	rover=$HOSTNAME #@TODO check the topics if they don't exist then error out
+	return
     elif [ "$rovercount" -eq 0 ]; then
 	echo "ERROR: There are no rovers to connect to! You must start the GUI"
 	echo "ERROR: and either begin a simulation or deploy to a rover."
