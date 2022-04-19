@@ -15,12 +15,12 @@ function get_rover()
 {
     rovercount=$(rostopic list | grep driveControl | wc -l)
     if [ "$rovercount" -gt 1 ]; then
-	echo "ERROR: You can't use this script when there are multiple rovers."
+	echo "WARN: Multiple rovers. Using HOSTNAME if this is a rover"
 	echo "ERROR: Use rosrun instead."
 	echo ""
 	echo 'ROS_NAMESPACE=/<rovername> rosrun mobility <node> <arguments>'
 	echo ""
-	exit -2
+	rover=$HOSTNAME #@TODO check the topics if they don't exist then error out
     elif [ "$rovercount" -eq 0 ]; then
 	echo "ERROR: There are no rovers to connect to! You must start the GUI"
 	echo "ERROR: and either begin a simulation or deploy to a rover."
