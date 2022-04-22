@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export ROS_HOSTNAME=$HOSTNAME.local
 if [ -f "$(dirname $0)/devel/setup.bash" ]; then
     source "$(dirname $0)/devel/setup.bash"
 else
