@@ -2324,7 +2324,7 @@ QString RoverGUIPlugin::startROSJoyNode()
     if (!joy_process)
     {
 
-        QString argument = "rosrun joy joy_node";
+        QString argument = "rosrun joy joy_node __name:=joy_node$HOSTNAME";
 
         joy_process = new QProcess();
 
