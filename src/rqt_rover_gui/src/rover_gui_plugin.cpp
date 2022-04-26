@@ -66,7 +66,6 @@ namespace rqt_rover_gui
     max_info_log_length = 10000;
     max_diag_log_length = 10000;
 
-    joy_process = NULL;
     joystickGripperInterface = NULL;
 
     obstacle_call_count = 0;
@@ -262,9 +261,6 @@ namespace rqt_rover_gui
     ui.all_autonomous_button->setStyleSheet("color: grey; border:2px solid grey; border-radius:12px; padding: 5px;");
     ui.all_stop_button->setStyleSheet("color: grey; border:2px solid grey; border-radius:12px; padding: 5px;");
 
-    //QString return_msg = startROSJoyNode();
-    //displayLogMessage(return_msg);
-
     info_log_subscriber = nh.subscribe("/infoLog", 10, &RoverGUIPlugin::infoLogMessageEventHandler, this);
     diag_log_subscriber = nh.subscribe("/diagsLog", 10, &RoverGUIPlugin::diagLogMessageEventHandler, this);
 
@@ -278,7 +274,6 @@ namespace rqt_rover_gui
     ui.map_frame->clear();
     clearSimulationButtonEventHandler();
     rover_poll_timer->stop();
-    stopROSJoyNode();
     ros::shutdown();
   }
 
@@ -1445,9 +1440,6 @@ void RoverGUIPlugin::autonomousRadioButtonEventHandler(bool marked)
     control_mode_publishers[selected_rover_name].publish(control_mode_msg);
     emit sendInfoLogMessage(QString::fromStdString(selected_rover_name)+" changed to autonomous control");
 
-    QString return_msg = stopROSJoyNode();
-    emit sendInfoLogMessage(return_msg);
-
     //Enable all stop button
     ui.all_stop_button->setEnabled(true);
     ui.all_stop_button->setStyleSheet("color: white; border:2px solid white; border-radius:12px; padding: 5px;");
@@ -1490,9 +1482,6 @@ void RoverGUIPlugin::joystickRadioButtonEventHandler(bool marked)
 
     control_mode_publishers[selected_rover_name].publish(control_mode_msg);
     emit sendInfoLogMessage(QString::fromStdString(selected_rover_name)+" changed to joystick control");\
-
-    QString return_msg = startROSJoyNode();
-    emit sendInfoLogMessage(return_msg);
 
     //Enable all autonomous button
     ui.all_autonomous_button->setEnabled(true);
@@ -2317,48 +2306,6 @@ void RoverGUIPlugin::visualizeSimulationButtonEventHandler()
         emit sendInfoLogMessage(return_msg);
     }
 
-}
-
-QString RoverGUIPlugin::startROSJoyNode()
-{
-    if (!joy_process)
-    {
-
-        QString argument = "rosrun joy joy_node __name:=joy_node$HOSTNAME";
-
-        joy_process = new QProcess();
-
-        joy_process->start("sh", QStringList() << "-c" << argument);
-
-       // joy_process->waitForStarted();
-
-        return "Started the joystick node.";
-
-    }
-    else
-    {
-        return "The joystick node is already running.";
-    }
-}
-
-QString RoverGUIPlugin::stopROSJoyNode()
-{
-   //return "Do nothing for debug";
-
-    if (joy_process)
-    {
-        joy_process->terminate();
-        joy_process->waitForFinished();
-        delete joy_process;
-        joy_process = NULL;
-
-        return "Stopped the running joystick node.";
-
-    }
-    else
-    {
-        return "Tried to stop the joystick node but it isn't running.";
-    }
 }
 
 QString RoverGUIPlugin::addUniformTargets()
