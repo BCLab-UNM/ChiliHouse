@@ -15,7 +15,9 @@
     <param name="startsim" value="$(arg startsim)"/>
     <param name="gazebo" value="$(arg gazebo)"/>
   </group>
-
+  
+  <node name="$(anon joy_node)" pkg="joy" type="joy_node" />
+  
   <node name="$(anon rqt_rover_gui)" pkg="rqt_gui" type="rqt_gui" args="-s rqt_rover_gui" required="True" output="screen">
     <env name="SWARMATHON_APP_ROOT" value="$(env PWD)" />
     <env name="GAZEBO_MODEL_PATH" value="$(env PWD)/simulation/models" />
