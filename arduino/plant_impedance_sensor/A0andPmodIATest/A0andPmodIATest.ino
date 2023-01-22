@@ -9,6 +9,10 @@
 double gain[NUM_INCR+1];
 int phase[NUM_INCR+1];
 float sum = 0;
+
+unsigned long lastSweep = 0;
+int currentSweep = 10000; //1800000;
+
 AD5933 sensor;
 
 void setup(void)
@@ -47,21 +51,29 @@ void setup(void)
     delay(5000);
     digitalWrite(LED_BUILTIN, LOW);
   }
-  else
+  else{
     Serial.println("Calibration failed...");
-} //end setup
-
-void loop(void)
-{
-  sum = 0;
-  for(int i =0; i < 100; i++){
-      sum += analogRead(A0);
-      delay(10);
+  }
+  for(int i = 0; i < 1; i++){
+      Serial.print("gain :");
+      Serial.println(gain[i]);
+      Serial.print("phase :");
+      Serial.println(phase[i]);
     }
     
-  Serial.print(1024.0/ (sum/100));
-  Serial.print(":");
+} //end setup
+
+void loop(){
+  if(millis() - lastSweep >= currentSweep){
+    freqSweep();
+    //getA0();
+    lastSweep = millis();
+  }
   
+  
+}
+
+void freqSweep(){
   int real, imag, i = 0;
 
     // Initialize the frequency sweep
@@ -74,14 +86,25 @@ void loop(void)
     if (sensor.readStatusRegister() && sensor.getComplexData(&real, &imag)){
       double magnitude = sqrt((real*real) + (imag*imag));
         double impedance = 1.0/(magnitude*gain[i]);
-        Serial.print(impedance);
+        Serial.print("impedance :");
+        Serial.println(impedance);
     }
-    Serial.print(":");
-    if (sensor.readStatusRegister() && sensor.getComplexData(&real, &imag)){
-      double magnitude = sqrt((real*real) + (imag*imag));
-        double impedance = 1.0/(magnitude*gain[i+1]);
-        Serial.println(impedance*2);
-    }
+    // Serial.print(":");
+    // if (sensor.readStatusRegister() && sensor.getComplexData(&real, &imag)){
+    //   double magnitude = sqrt((real*real) + (imag*imag));
+    //     double impedance = 1.0/(magnitude*gain[i+1]);
+    //     Serial.println(impedance*2);
+    // }
   // Delay
-  delay(60000);
+  // delay(60000);
+}
+
+void getA0(){
+  sum = 0;
+  for(int i =0; i < 100; i++){
+      sum += analogRead(A0);
+      delay(10);
+    }
+    
+  Serial.print(1024.0/ (sum/100));
 }
