@@ -1,17 +1,23 @@
+
 #include <Wire.h>
 #include "AD5933.h"
+#include "DHT.h"
+#define DHTPIN 2
+#define DHTTYPE DHT11
+
 
 #define START_FREQ  (5000)
 #define FREQ_INCR   (5000)
 #define NUM_INCR    (1)
 #define REF_RESIST  (22000)
+DHT dht(DHTPIN, DHTTYPE);
 
 double gain[NUM_INCR+1];
 int phase[NUM_INCR+1];
 float sum = 0;
 
 unsigned long lastSweep = 0;
-int currentSweep = 10000; //1800000;
+int currentSweep = 30000; //1800000;
 
 AD5933 sensor;
 
@@ -22,9 +28,9 @@ void setup(void)
   pinMode(LED_BUILTIN, OUTPUT);
   // Begin serial at 9600 baud for output
   Serial.begin(9600);
-  Serial.println("A0 and PmodIA Test Started!");
+  dht.begin(); // initialize the sensor
+  Serial.println("DHT11, A0 and PmodIA Test Started!");
 
-  
   // Perform initial configuration. Fail if any one of these fail.
   if (!(sensor.reset() && 
         sensor.setRange(4) && //sensor.CTRL_OUTPUT_RANGE_3 which is 400 mV 0b00000100 == 4
@@ -54,25 +60,27 @@ void setup(void)
   else{
     Serial.println("Calibration failed...");
   }
-  for(int i = 0; i < 1; i++){
-      Serial.print("gain :");
-      Serial.println(gain[i]);
-      Serial.print("phase :");
-      Serial.println(phase[i]);
+  Serial.print("Setup: ");
+  for(int i = 0; i < 1; i++){ // Do we want 0?
+      Serial.print("gain:");
+      Serial.print(gain[i]);
+      Serial.print(", phase:");
+      Serial.print(phase[i]);
     }
-    
+  Serial.print(", T:");
+  Serial.print(dht.readTemperature(true));
+  Serial.print(", H:");
+  Serial.println(dht.readHumidity());
+  Serial.println("");
 } //end setup
 
 void loop(){
   if(millis() - lastSweep >= currentSweep){
     freqSweep();
-    //getA0();
     lastSweep = millis();
-  }
+  } //end last sweep check
+} //end loop
   
-  
-}
-
 void freqSweep(){
   int real, imag, i = 0;
 
@@ -85,10 +93,16 @@ void freqSweep(){
          }
     if (sensor.readStatusRegister() && sensor.getComplexData(&real, &imag)){
       double magnitude = sqrt((real*real) + (imag*imag));
-        double impedance = 1.0/(magnitude*gain[i]);
-        Serial.print("impedance :");
-        Serial.println(impedance);
-    }
+      double impedance = 1.0/(magnitude*gain[i]);
+      Serial.print("I:");
+      Serial.print(impedance);
+      Serial.print(", A:");
+      Serial.print(getA0());
+      Serial.print(", T:");
+      Serial.print(dht.readTemperature(true));
+      Serial.print(", H:");
+      Serial.println(dht.readHumidity());    
+    } // if pmodIA getdata good
     // Serial.print(":");
     // if (sensor.readStatusRegister() && sensor.getComplexData(&real, &imag)){
     //   double magnitude = sqrt((real*real) + (imag*imag));
@@ -97,14 +111,13 @@ void freqSweep(){
     // }
   // Delay
   // delay(60000);
-}
+} //end freqSweep
 
-void getA0(){
+float getA0(){
   sum = 0;
   for(int i =0; i < 100; i++){
       sum += analogRead(A0);
       delay(10);
-    }
-    
-  Serial.print(1024.0/ (sum/100));
-}
+    } //end for accumulator
+  return 1024.0/ (sum/100);
+} //end getA0
