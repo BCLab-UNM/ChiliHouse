@@ -1,3 +1,7 @@
+#include <ros.h>
+#include <std_msgs/UInt16.h>
+
+
 #include <Wire.h>
 #include "AD5933.h"
 
@@ -9,20 +13,26 @@
 double gain[NUM_INCR+1];
 int phase[NUM_INCR+1];
 float sum = 0;
-
 unsigned long lastSweep = 0;
 int currentSweep = 10000; //1800000;
 
 AD5933 sensor;
 
+ros::NodeHandle node_handle;
+std_msgs::uint16_t impedanceMsg;
+
+ros::Publisher impedancePublisher("impedance_Value", &impedanceMsg);
+
+
 void setup(void)
 {
   // Begin I2C
   Wire.begin();
-  pinMode(LED_BUILTIN, OUTPUT);
-  // Begin serial at 9600 baud for output
+  pinMode(LED_BUILTIN, OUTPUT); // Begin serial at 9600 baud for output
   Serial.begin(9600);
   Serial.println("A0 and PmodIA Test Started!");
+  node_handle.initNode();
+  node_handle.advertise(impedancePublisher);
 
   
   // Perform initial configuration. Fail if any one of these fail.
@@ -60,12 +70,14 @@ void setup(void)
       Serial.print("phase :");
       Serial.println(phase[i]);
     }
+    node_handle.initNode();
     
 } //end setup
 
 void loop(){
   if(millis() - lastSweep >= currentSweep){
     freqSweep();
+    node_handle.spinOnce();
     //getA0();
     lastSweep = millis();
   }
@@ -88,6 +100,7 @@ void freqSweep(){
         double impedance = 1.0/(magnitude*gain[i]);
         Serial.print("impedance :");
         Serial.println(impedance);
+        impedanceMsg.data = impedance;
     }
     // Serial.print(":");
     // if (sensor.readStatusRegister() && sensor.getComplexData(&real, &imag)){
@@ -97,6 +110,7 @@ void freqSweep(){
     // }
   // Delay
   // delay(60000);
+  impedancePublisher.publish( &impedanceMsg);
 }
 
 void getA0(){
