@@ -1,0 +1,9 @@
+Running under chilihouse@ramon.cs.unm.edu
+* * * * * python3 /nfs/guest/chilihouse/bin/copyLatest.py
+
+Future plans weekly runs
+/nfs/guest/chilihouse/bin/CombineImages.py ../Month/
+ffmpeg -framerate 60 -pattern_type glob -i 'Combined_*.png' -c:v libx264 -pix_fmt yuv420p ../$Month.avi
+
+Future plans daily runs
+- lawnmower on RoboGardener, ect
