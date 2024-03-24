@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NASA Minds Project: Chilihouse: RoboGardener</title>
+    <style>
+        body {
+            text-align: center;
+        }
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .banner img, .discord-chili img {
+            max-height: 100px; /* Adjust this value as needed */
+            width: auto;
+        }
+        .image-container {
+            margin: 20px auto;
+        }
+        .side-by-side {
+            display: flex;
+            justify-content: center;
+        }
+        .timestamp {
+            margin-top: 5px;
+            font-size: 14px;
+            color: #555;
+            overflow: hidden; /* Ensures the object does not overflow its container */
+            height: 50px; /* Adjust height as needed */
+        }
+    </style>
+</head>
+<body onload="refreshContent(); setInterval(refreshContent, 30000);">
+    <div class="header">
+        <div class="banner">
+            <img src="https://nasaminds.org/wp-content/uploads/2021/12/NASA-MINDS-webpage-banner-center.png" alt="NASA MINDS Banner" />
+        </div>
+        <div class="discord-chili">
+            <img src="DiscordChili.png" alt="Discord Chili" />
+        </div>
+    </div>
+    <div class="image-container">
+        <img id="rgbImage" src="RGB_Latest.png" alt="RGB Image" />
+        <div class="timestamp">
+            <object id="rgbTimestamp" data="RGB_timestamp.txt" type="text/plain" style="height: 50px; width: 100%;">
+                <a href="RGB_timestamp.txt">No Support?</a>
+            </object>
+        </div>
+    </div>
+    <div class="side-by-side">
+        <div class="image-container">
+            <img id="irImage" src="IR_Latest.png" alt="IR Image" />
+            <div class="timestamp">
+                <object id="irTimestamp" data="IR_timestamp.txt" type="text/plain" style="height: 50px; width: 100%;">
+                    <a href="IR_timestamp.txt">No Support?</a>
+                </object>
+            </div>
+        </div>
+        <div class="image-container">
+            <img id="depthImage" src="Depth_Latest.png" alt="Depth Image" />
+            <div class="timestamp">
+                <object id="depthTimestamp" data="Depth_timestamp.txt" type="text/plain" style="height: 50px; width: 100%;">
+                    <a href="Depth_timestamp.txt">No Support?</a>
+                </object>
+            </div>
+        </div>
+    </div>
+    <script>
+        function refreshContent() {
+            var timeSuffix = new Date().getTime(); // Current time to prevent caching
+
+            // Refresh images
+            document.getElementById('rgbImage').src = 'RGB_Latest.png?' + timeSuffix;
+            document.getElementById('irImage').src = 'IR_Latest.png?' + timeSuffix;
+            document.getElementById('depthImage').src = 'Depth_Latest.png?' + timeSuffix;
+
+            // Refresh timestamps
+            document.getElementById('rgbTimestamp').data = 'RGB_timestamp.txt?' + timeSuffix;
+            document.getElementById('irTimestamp').data = 'IR_timestamp.txt?' + timeSuffix;
+            document.getElementById('depthTimestamp').data = 'Depth_timestamp.txt?' + timeSuffix;
+        }
+    </script>
+</body>
+</html>
+
