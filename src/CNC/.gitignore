@@ -1,0 +1,4 @@
+.venv
+*.gcode
+points.csv
+path.tmp.gcode
